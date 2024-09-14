@@ -46,7 +46,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col lg:flex-row">
+      <div className="w-full flex flex-col lg:max-w-7xl lg:mx-auto lg:flex-row">
         <FilterSidebar />
       </div>
     </main>
