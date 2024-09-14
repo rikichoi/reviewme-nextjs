@@ -9,15 +9,16 @@ datasource db {
 }
 
 model reviews {
-  id          Int      @id @default(autoincrement())
-  reviewImage String
-  title       String
-  description String
-  location    String
-  review      String
-  verified    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  id             Int      @id @default(autoincrement())
+  reviewImageUrl String
+  title          String
+  description    String
+  location       String
+  ratingAvg      Float
+  category       String
+  verified       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
 }
 
 model jobs {

@@ -2,7 +2,7 @@ import FilterSidebar from "@/components/FilterSidebar";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-items-center min-h-[2000px] bg-[#fcfbf3]">
+    <main className="flex flex-col items-center justify-items-center min-h-[2000px] ">
       <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white">
         <h1 className="text-3xl lg:text-5xl tracking-tight font-bold">
           Best in Review Site
@@ -20,8 +20,8 @@ export default function Home() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-info"
             >
               <circle cx="12" cy="12" r="10" />
