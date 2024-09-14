@@ -1,4 +1,4 @@
-import FilterSidebar from "./components/FilterSidebar";
+import FilterSidebar from "@/components/FilterSidebar";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         </h1>
         <div className="group relative">
           <div className="flex items-center gap-2">
-            <span className="text-lg hidden lg:block text-zinc-600">
+            <span className="pointer-events-none text-lg hidden lg:block text-zinc-600">
               Compare the best companies in this category
             </span>
             <svg

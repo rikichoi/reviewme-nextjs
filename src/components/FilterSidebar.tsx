@@ -2,11 +2,10 @@ import React from "react";
 import {
   categoryFilterOptions,
   locationFilterOptions,
-} from "../lib/filter-types";
-import { filterReviewsSchema } from "../lib/validation";
+} from "@/lib/filter-types";
+import { filterReviewsSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
-import { Form } from "react-hook-form";
 
 async function filterReviews(formData: FormData) {
   "use server";
