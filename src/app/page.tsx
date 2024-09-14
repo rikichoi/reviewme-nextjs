@@ -2,7 +2,7 @@ import FilterSidebar from "./components/FilterSidebar";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-items-center min-h-[2000px] gap-3 bg-[#fcfbf3]">
+    <main className="flex flex-col items-center justify-items-center min-h-[2000px] bg-[#fcfbf3]">
       <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white">
         <h1 className="text-3xl lg:text-5xl tracking-tight font-bold">
           Best in Review Site

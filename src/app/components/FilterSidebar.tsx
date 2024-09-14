@@ -5,6 +5,8 @@ import {
 } from "../lib/filter-types";
 import { filterReviewsSchema } from "../lib/validation";
 import { redirect } from "next/navigation";
+import FormSubmitButton from "./FormSubmitButton";
+import { Form } from "react-hook-form";
 
 async function filterReviews(formData: FormData) {
   "use server";
@@ -25,7 +27,7 @@ async function filterReviews(formData: FormData) {
 
 export default async function FilterSidebar() {
   return (
-    <div className="sticky top-0 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-3 lg:w-fit">
+    <div className="sticky top-0 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-3 lg:w-fit h-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">
@@ -84,12 +86,9 @@ export default async function FilterSidebar() {
             Verified
           </label>
         </div>
-        <button
-          type="submit"
-          className="rounded-lg hover:bg-zinc-800 bg-zinc-950 text-white p-2 font-bold tracking-tight"
-        >
+        <FormSubmitButton className="rounded-lg bg-zinc-950 text-white p-2 font-bold tracking-tight">
           Filter reviews
-        </button>
+        </FormSubmitButton>
       </form>
     </div>
   );
