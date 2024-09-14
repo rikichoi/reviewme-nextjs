@@ -3,17 +3,29 @@ import {
   categoryFilterOptions,
   locationFilterOptions,
 } from "../lib/filter-types";
+import { filterReviewsSchema } from "../lib/validation";
+import { redirect } from "next/navigation";
 
 async function filterReviews(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
-  
-  console.log(values);
+
+  const { category, location, query, verified } =
+    filterReviewsSchema.parse(values);
+
+  const filterQuery = new URLSearchParams({
+    ...(query && { query }),
+    ...(location && { location }),
+    ...(category && { category }),
+    ...(verified && { verified: "true" }),
+  });
+
+  redirect(`?${filterQuery}`);
 }
 
 export default async function FilterSidebar() {
   return (
-    <div className="sticky top-0 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg lg:bg-white lg:p-3 lg:w-fit">
+    <div className="sticky top-0 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-3 lg:w-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">
