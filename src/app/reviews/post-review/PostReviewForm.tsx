@@ -8,16 +8,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReviewSchema, CreateReviewSchema } from "@/lib/validation";
+import dynamic from "next/dynamic";
 
 export default function PostReviewForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     setValue,
-    control,
-    trigger,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm<CreateReviewSchema>({
     resolver: zodResolver(createReviewSchema),
@@ -30,6 +29,12 @@ export default function PostReviewForm() {
   const onSubmit = (data: CreateReviewSchema) => {
     console.log(data);
   };
+
+  const Tiptap = dynamic(() => import("@/components/Tiptap"), {
+    ssr: false,
+  });
+
+  const descriptionVal = getValues("description");
 
   return (
     <form
@@ -54,7 +59,7 @@ export default function PostReviewForm() {
         />
         {errors.reviewImageUrl && (
           <p role="alert" className="text-red-500">
-            {errors.reviewImageUrl.message}
+            {errors.reviewImageUrl.message?.toString()}
           </p>
         )}
       </div>
@@ -140,6 +145,9 @@ export default function PostReviewForm() {
         <label htmlFor="ratingAvg" className="font-bold tracking-tight">
           Rating
         </label>
+        <span className="font-semibold text-green-500 text-lg text-center">
+          {watch("ratingAvg")}
+        </span>
         <input
           {...register("ratingAvg")}
           type="range"
@@ -151,14 +159,13 @@ export default function PostReviewForm() {
           step="0.5"
           className="bg-blue-200 w-full h-4 cursor-pointer dark:bg-gray-700"
         />
-        <div className="flex justify-between mt-2">
+        <div className="flex justify-between mt-2 mr-0.5">
           <span className="text-sm text-gray-500">0</span>
+          <span className="text-sm text-gray-500">1</span>
+          <span className="text-sm text-gray-500">2</span>
+          <span className="text-sm text-gray-500">3</span>
+          <span className="text-sm text-gray-500">4</span>
           <span className="text-sm text-gray-500">5</span>
-        </div>
-        <div className="flex justify-center mt-2">
-          <span className="text-sm font-semibold justify-center text-orange-500">
-            {watch("ratingAvg") || 0}
-          </span>
         </div>
         {errors.ratingAvg && (
           <p role="alert" className="text-red-500">
@@ -170,15 +177,11 @@ export default function PostReviewForm() {
         <label htmlFor="description" className="font-bold tracking-tight">
           Description
         </label>
-        <textarea
-          {...register("description")}
-          aria-invalid={errors.description ? "true" : "false"}
-          id="description"
-          name="description"
-          className={`${
-            errors.description && "  border-red-500 "
-          } border-2 focus:border-zinc-950 outline-none rounded-lg p-1`}
-          placeholder="Description of your review"
+        <Tiptap
+          description={descriptionVal}
+          setValue={setValue}
+          errors={errors.description?.message}
+          register={register}
         />
         {errors.description && (
           <p role="alert" className="text-red-500">
