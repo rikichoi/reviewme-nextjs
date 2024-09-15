@@ -16,13 +16,14 @@ export const filterReviewsSchema = z.object({
 // const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const reviewImageUrlSchema = z.custom<File | undefined>()
-.refine(
-  (file) => !file || (file instanceof File && file.type.startsWith("image/")),
-  "Must be an image file",
-)
-.refine((file) => {
-  return !file || file.size < 1024 * 1024 * 2;
-}, "File must be less than 2MB");
+    .refine(file => file !== undefined, "Image is required")
+    .refine(
+        (file) => (file instanceof File && file.type.startsWith("image/")),
+        "Must be an image file",
+    )
+    .refine((file) => {
+        return file && file.size < 1024 * 1024 * 2;
+    }, "File must be less than 2MB");
 
 export const createReviewSchema = z.object({
     reviewImageUrl: reviewImageUrlSchema,

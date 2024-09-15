@@ -5,6 +5,12 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import "./tiptapStyles.css";
+import { Toolbar } from "./Toolbar";
+import { Heading } from "@tiptap/extension-heading";
+import { ListItem } from "@tiptap/extension-list-item";
+import { BulletList } from "@tiptap/extension-bullet-list";
+import { OrderedList } from "@tiptap/extension-ordered-list";
+
 type TiptapProps = {
   register: UseFormRegister<CreateReviewSchema>;
   setValue: UseFormSetValue<CreateReviewSchema>;
@@ -16,6 +22,10 @@ const Tiptap = ({ register, setValue, description, errors }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
+      ListItem,
+      BulletList,
+      OrderedList,
+      Heading.configure({ HTMLAttributes: { class: "text-xl", levels: [2] } }),
       Placeholder.configure({ placeholder: "Write your review here..." }),
     ],
     content: description,
@@ -32,12 +42,15 @@ const Tiptap = ({ register, setValue, description, errors }: TiptapProps) => {
   });
 
   return (
-    <EditorContent
-      {...register("description")}
-      id="description"
-      name="description"
-      editor={editor}
-    />
+    <div className="flex flex-col justify-stretch min-h-[250px] gap-3">
+      <Toolbar editor={editor} />
+      <EditorContent
+        {...register("description")}
+        id="description"
+        name="description"
+        editor={editor}
+      />
+    </div>
   );
 };
 

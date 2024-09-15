@@ -3,20 +3,24 @@ import React from "react";
 import { useFormStatus } from "react-dom";
 
 export default function FormSubmitButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>,
+  isLoading?: boolean
 ) {
   const { pending } = useFormStatus();
+  const loading = isLoading === true;
 
   return (
     <button
       {...props}
-      className={`${pending && " bg-slate-500 "} ${props.className}`}
-      disabled={pending}
+      className={`${(pending || loading) && " bg-slate-500 "} ${
+        props.className
+      }`}
+      disabled={pending || loading}
       type="submit"
     >
       <span className="flex items-center justify-center gap-1">
         {props.children}
-        {pending && (
+        {(pending || loading) && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

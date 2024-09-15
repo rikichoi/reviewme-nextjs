@@ -1,5 +1,4 @@
 "use client";
-import FormSubmitButton from "@/components/FormSubmitButton";
 import {
   categoryFilterOptions,
   locationFilterOptions,
@@ -8,8 +7,10 @@ import React from "react";
 import { useForm, useController } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReviewSchema, CreateReviewSchema } from "@/lib/validation";
-import dynamic from "next/dynamic";
 import { postReview } from "./actions";
+import Tiptap from "@/components/Editor/Tiptap";
+import FormSubmitButton from "@/components/FormSubmitButton";
+import { redirect } from "next/navigation";
 
 export default function PostReviewForm() {
   const {
@@ -19,7 +20,7 @@ export default function PostReviewForm() {
     getValues,
     watch,
     control,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm<CreateReviewSchema>({
     resolver: zodResolver(createReviewSchema),
     defaultValues: {
@@ -43,14 +44,11 @@ export default function PostReviewForm() {
     });
     try {
       await postReview(formData);
+      redirect("/");
     } catch (e) {
       alert(e);
     }
   }
-
-  const Tiptap = dynamic(() => import("@/components/Tiptap"), {
-    ssr: false,
-  });
 
   const descriptionVal = getValues("description");
 
@@ -213,7 +211,10 @@ export default function PostReviewForm() {
           </p>
         )}
       </div>
-      <FormSubmitButton className="rounded-lg bg-zinc-950 text-white p-2 font-bold tracking-tight">
+      <FormSubmitButton
+        {...{ isLoading }}
+        className="rounded-lg bg-zinc-950 text-white p-2 font-bold tracking-tight"
+      >
         Post review
       </FormSubmitButton>
     </form>

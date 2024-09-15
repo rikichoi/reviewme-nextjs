@@ -22,7 +22,7 @@ export async function postReview(formData: FormData) {
             category,
             description: description.trim(),
             location,
-            ratingAvg: parseInt(ratingAvg),
+            ratingAvg: parseFloat(ratingAvg),
             title: title.trim(),
             verified: Boolean(verified),
             reviewImageUrl: uploadedReviewImageUrl,
