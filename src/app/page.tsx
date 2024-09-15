@@ -1,7 +1,18 @@
 import FilterSidebar from "@/components/FilterSidebar";
 import ReviewListItem from "@/components/ReviewListItem";
 
-export default function Home() {
+type HomeProps = {
+  searchParams: {
+    query?: string;
+    location?: string;
+    category?: string;
+    verified?: boolean;
+  };
+};
+
+export default function Home({
+  searchParams: { category, location, query, verified },
+}: HomeProps) {
   return (
     <main className="flex flex-col items-center justify-items-center mb-96 min-h-screen">
       <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white">
@@ -48,8 +59,18 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow pt-0 lg:pt-5">
-        <FilterSidebar />
-        <ReviewListItem />
+        <FilterSidebar
+          category={category}
+          location={location}
+          query={query}
+          verified={verified}
+        />
+        <ReviewListItem
+          category={category}
+          location={location}
+          query={query}
+          verified={verified}
+        />
       </div>
     </main>
   );

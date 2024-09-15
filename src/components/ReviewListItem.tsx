@@ -3,8 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default async function ReviewListItem() {
-  const reviews = await prisma.reviews.findMany();
+type ReviewListItemProps = {
+  query?: string;
+  location?: string;
+  category?: string;
+  verified?: boolean;
+};
+
+export default async function ReviewListItem({
+  category,
+  location,
+  query,
+  verified,
+}: ReviewListItemProps) {
+  const reviews = await prisma.reviews.findMany({
+    where: {
+      title: query,
+  },
+  });
   return (
     <div className="grow px-5 gap-5 flex flex-col">
       {reviews.map((review) => (
