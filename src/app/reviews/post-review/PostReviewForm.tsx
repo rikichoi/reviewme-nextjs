@@ -5,10 +5,11 @@ import {
   locationFilterOptions,
 } from "@/lib/filter-types";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useController } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReviewSchema, CreateReviewSchema } from "@/lib/validation";
 import dynamic from "next/dynamic";
+import { postReview } from "./actions";
 
 export default function PostReviewForm() {
   const {
@@ -17,18 +18,35 @@ export default function PostReviewForm() {
     setValue,
     getValues,
     watch,
+    control,
     formState: { errors },
   } = useForm<CreateReviewSchema>({
     resolver: zodResolver(createReviewSchema),
     defaultValues: {
-      verified: false,
+      verified: "false",
       ratingAvg: "2.5",
     },
   });
 
-  const onSubmit = (data: CreateReviewSchema) => {
+  const { field } = useController({
+    name: "reviewImageUrl",
+    control: control,
+  });
+
+  async function onSubmit(data: CreateReviewSchema) {
     console.log(data);
-  };
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (data) {
+        formData.append(key, value);
+      }
+    });
+    try {
+      await postReview(formData);
+    } catch (e) {
+      alert(e);
+    }
+  }
 
   const Tiptap = dynamic(() => import("@/components/Tiptap"), {
     ssr: false,
@@ -46,12 +64,18 @@ export default function PostReviewForm() {
           Image
         </label>
         <input
-          {...register("reviewImageUrl")}
+          {...field}
+          value={undefined} // Remove the value property
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            console.log(file);
+            field.onChange(file);
+          }}
           type="file"
           accept="image/*"
           aria-invalid={errors.reviewImageUrl ? "true" : "false"}
-          id="reviewImageUrl"
-          name="reviewImageUrl"
+          id={field.name}
+          name={field.name}
           className={`${
             errors.reviewImageUrl && "  border-red-500 "
           } border-2 focus:border-zinc-950 outline-none rounded-lg p-1`}

@@ -12,20 +12,20 @@ export const filterReviewsSchema = z.object({
     verified: z.coerce.boolean().optional(),
 })
 
-const MAX_FILE_SIZE = (1024 * 1024 * 2);
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+// const MAX_FILE_SIZE = (1024 * 1024 * 2);
+// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
-const reviewImageUrlSchema = z.object({
-    reviewImageUrl: z
-        .any()
-        .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Image is required. Max image size is 2MB.`)
-        .refine(
-            (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-            "Only .jpg, .jpeg, .png and .webp formats are supported."
-        )
-})
+const reviewImageUrlSchema = z.custom<File | undefined>()
+.refine(
+  (file) => !file || (file instanceof File && file.type.startsWith("image/")),
+  "Must be an image file",
+)
+.refine((file) => {
+  return !file || file.size < 1024 * 1024 * 2;
+}, "File must be less than 2MB");
 
 export const createReviewSchema = z.object({
+    reviewImageUrl: reviewImageUrlSchema,
     title: requiredString,
     description: requiredString.refine(value => value !== "<p></p>", "Description is required"),
     ratingAvg: numericRequiredString.max(
@@ -42,9 +42,8 @@ export const createReviewSchema = z.object({
             categoryFilterOptions.includes(value ? value : "All categories"),
         "Invalid category"
     ),
-    verified: z
-        .boolean()
-        .refine((value) => value === false, "You cannot modify this value. You cannot verify your own review."),
-}).and(reviewImageUrlSchema)
+    verified: requiredString
+        .refine((value) => value === "false", "You cannot modify this value. You cannot verify your own review."),
+})
 
 export type CreateReviewSchema = z.infer<typeof createReviewSchema>;
