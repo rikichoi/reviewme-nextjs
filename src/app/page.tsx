@@ -1,4 +1,5 @@
 import FilterSidebar from "@/components/FilterSidebar";
+import ReviewListItem from "@/components/ReviewListItem";
 
 export default function Home() {
   return (
@@ -48,6 +49,7 @@ export default function Home() {
       </div>
       <div className="w-full pt-5 flex flex-col lg:max-w-7xl lg:mx-auto lg:flex-row">
         <FilterSidebar />
+        <ReviewListItem />
       </div>
     </main>
   );
