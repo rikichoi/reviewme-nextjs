@@ -38,6 +38,11 @@ export default async function ReviewListItem({
   });
   return (
     <div className="grow px-5 gap-5 flex flex-col">
+      {reviews.length === 0 && (
+        <div className="text-center text-lg font-semibold">
+          No reviews found
+        </div>
+      )}
       {reviews.map((review) => (
         <ReviewItem
           key={review.id}

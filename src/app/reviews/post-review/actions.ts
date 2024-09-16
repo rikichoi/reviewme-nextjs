@@ -30,5 +30,5 @@ export async function postReview(formData: FormData) {
             updatedAt: new Date().toISOString(),
         }
     })
-redirect("/")
+redirect("/reviews/post-confirmation")
 }
