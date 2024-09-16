@@ -10,7 +10,6 @@ import { createReviewSchema, CreateReviewSchema } from "@/lib/validation";
 import { postReview } from "./actions";
 import Tiptap from "@/components/Editor/Tiptap";
 import FormSubmitButton from "@/components/FormSubmitButton";
-import { redirect } from "next/navigation";
 
 export default function PostReviewForm() {
   const {
@@ -20,7 +19,7 @@ export default function PostReviewForm() {
     getValues,
     watch,
     control,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<CreateReviewSchema>({
     resolver: zodResolver(createReviewSchema),
     defaultValues: {
@@ -42,9 +41,9 @@ export default function PostReviewForm() {
         formData.append(key, value);
       }
     });
+
     try {
       await postReview(formData);
-      redirect("/");
     } catch (e) {
       alert(e);
     }
@@ -212,7 +211,7 @@ export default function PostReviewForm() {
         )}
       </div>
       <FormSubmitButton
-        {...{ isLoading }}
+        loading={isSubmitting}
         className="rounded-lg bg-zinc-950 text-white p-2 font-bold tracking-tight"
       >
         Post review

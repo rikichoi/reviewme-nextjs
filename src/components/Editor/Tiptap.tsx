@@ -6,10 +6,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import "./tiptapStyles.css";
 import { Toolbar } from "./Toolbar";
-import { Heading } from "@tiptap/extension-heading";
-import { ListItem } from "@tiptap/extension-list-item";
-import { BulletList } from "@tiptap/extension-bullet-list";
-import { OrderedList } from "@tiptap/extension-ordered-list";
 
 type TiptapProps = {
   register: UseFormRegister<CreateReviewSchema>;
@@ -22,10 +18,6 @@ const Tiptap = ({ register, setValue, description, errors }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
-      ListItem,
-      BulletList,
-      OrderedList,
-      Heading.configure({ HTMLAttributes: { class: "text-xl", levels: [2] } }),
       Placeholder.configure({ placeholder: "Write your review here..." }),
     ],
     content: description,

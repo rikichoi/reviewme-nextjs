@@ -2,12 +2,16 @@
 import React from "react";
 import { useFormStatus } from "react-dom";
 
-export default function FormSubmitButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>,
-  isLoading?: boolean
-) {
+type FormSubmitButtonProps = {
+  loading?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export default function FormSubmitButton({
+  loading,
+  children,
+  ...props
+}: FormSubmitButtonProps) {
   const { pending } = useFormStatus();
-  const loading = isLoading === true;
 
   return (
     <button
@@ -19,7 +23,7 @@ export default function FormSubmitButton(
       type="submit"
     >
       <span className="flex items-center justify-center gap-1">
-        {props.children}
+        {children}
         {(pending || loading) && (
           <svg
             xmlns="http://www.w3.org/2000/svg"

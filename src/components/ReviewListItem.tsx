@@ -14,12 +14,27 @@ export default async function ReviewListItem({
   category,
   location,
   query,
-  verified,
 }: ReviewListItemProps) {
   const reviews = await prisma.reviews.findMany({
     where: {
-      title: query,
-  },
+      verified: true,
+      AND: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+          category: {
+            contains: category,
+            mode: "insensitive",
+          },
+          location: {
+            contains: location,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
   });
   return (
     <div className="grow px-5 gap-5 flex flex-col">

@@ -2,11 +2,12 @@
 import prisma from "@/lib/db";
 import { createReviewSchema } from "@/lib/validation";
 import { put } from "@vercel/blob";
+import { redirect } from "next/navigation";
 import path from "path";
 
 export async function postReview(formData: FormData) {
     const reviewValues = Object.fromEntries(formData.entries());
-    const { category, description, location, ratingAvg, title, verified, reviewImageUrl } = createReviewSchema.parse(reviewValues)
+    const { category, description, location, ratingAvg, title, reviewImageUrl } = createReviewSchema.parse(reviewValues)
 
     let uploadedReviewImageUrl: string = "";
 
@@ -24,10 +25,10 @@ export async function postReview(formData: FormData) {
             location,
             ratingAvg: parseFloat(ratingAvg),
             title: title.trim(),
-            verified: Boolean(verified),
+            verified: false,
             reviewImageUrl: uploadedReviewImageUrl,
             updatedAt: new Date().toISOString(),
         }
     })
-
+redirect("/")
 }
