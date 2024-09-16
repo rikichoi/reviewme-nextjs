@@ -19,9 +19,9 @@ export default function Navbar() {
             ReviewMe
           </span>
         </Link>
-        <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
+        <Link href={"/reviews/post-review"} className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
           Post a review
-        </button>
+        </Link>
       </div>
     </nav>
   );
