@@ -7,16 +7,18 @@ type HomeProps = {
     location?: string;
     category?: string;
     verified?: boolean;
+    sort?: string;
+    order?: string;
   };
 };
 
 export default function Home({
-  searchParams: { category, location, query, verified },
+  searchParams: { category, location, query, verified, sort, order },
 }: HomeProps) {
   return (
-    <main className="flex flex-col items-center justify-items-center mb-96 min-h-screen">
-      <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white">
-        <h1 className="text-3xl lg:text-5xl tracking-tight font-bold">
+    <main className="flex flex-col items-center justify-items-center mb-10 ">
+      <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white border-b">
+        <h1 className="text-3xl lg:text-5xl tracking-tighter font-bold">
           Best in Review Site
         </h1>
         <div className="group relative">
@@ -58,18 +60,22 @@ export default function Home({
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow pt-0 lg:pt-5">
+      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow px-5 pt-0 lg:pt-5">
         <FilterSidebar
           category={category}
           location={location}
           query={query}
           verified={verified}
+          sort={sort}
+          order={order}
         />
         <ReviewListItem
           category={category}
           location={location}
           query={query}
           verified={verified}
+          sort={sort}
+          order={order}
         />
       </div>
     </main>
