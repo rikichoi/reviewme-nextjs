@@ -4,10 +4,12 @@ import React, { useEffect, useState } from "react";
 
 type ReviewDescriptionDropdownProps = {
   description: string;
+  category: string;
 };
 
 export default function ReviewDescriptionDropdown({
   description,
+  category,
 }: ReviewDescriptionDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -18,8 +20,9 @@ export default function ReviewDescriptionDropdown({
     }
   }, [isOpen]);
   return (
-    <div className="p-2 flex flex-col">
-      <div className="flex">
+    <div className="p-4 flex flex-col gap-3">
+      <div className="flex text-sm tracking-tight items-center">
+        <p>{category}</p>
         <button
           type="button"
           className="flex items-center ml-auto gap-1 text-blue-500 hover:text-blue-700"

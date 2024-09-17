@@ -60,7 +60,7 @@ export default function Home({
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow px-5 pt-0 lg:pt-5">
+      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow lg:px-5 pt-0 lg:pt-5">
         <FilterSidebar
           category={category}
           location={location}
