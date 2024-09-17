@@ -20,7 +20,7 @@ export default function ReviewDescriptionDropdown({
     }
   }, [isOpen]);
   return (
-    <div className="p-4 flex flex-col gap-3">
+    <div className="p-3 flex flex-col gap-3">
       <div className="flex text-sm tracking-tight items-center">
         <p>{category}</p>
         <button

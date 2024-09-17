@@ -67,6 +67,7 @@ export default async function ReviewListItem({
     orderBy: { [sort]: order },
   });
   // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
+// TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
       <div className="flex justify-between">
@@ -121,11 +122,11 @@ function ReviewItem({
     <div className="bg-white border-2 min-h-40 rounded-lg hover:drop-shadow-lg">
       <Link
         href={`/reviews/${id}`}
-        className="grid grid-cols-3 gap-5 p-5 border-b-2"
+        className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-32"
       >
         <div className="items-center flex">
           <Image
-            className="object-cover rounded max-h-28"
+            className="object-cover rounded max-h-24"
             height={500}
             width={500}
             src={reviewImageUrl}
