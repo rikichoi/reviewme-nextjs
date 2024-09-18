@@ -1,5 +1,10 @@
+import StarRating from "@/components/StarRating";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import prisma from "@/lib/db";
+import { calculateRatingString } from "@/lib/utils";
 import { error } from "console";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type ReviewPageProps = {
@@ -18,9 +23,78 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
     throw error;
   }
   return (
-    <div>
-      <h1>{review.title}</h1>
-      <p>{review.description}</p>
-    </div>
+    <main className="flex flex-col items-center justify-items-center mb-10">
+      <div className="bg-white border-b min-h-40 w-full p-2">
+        <div className="grid grid-cols-3 gap-5 p-5 max-w-5xl mx-auto">
+          <Link href={`/reviews/${id}`} className="items-center w-fit flex">
+            <Image
+              className="object-contain rounded max-h-24"
+              height={500}
+              width={500}
+              src={review.reviewImageUrl}
+              alt="Review Image"
+            />
+          </Link>
+          <div className="col-span-2 space-y-3">
+            <div className="flex flex-col">
+              <h1 className="text-3xl lg:text-4xl tracking-tight font-bold">
+                {review.title}
+              </h1>
+              <div className="flex items-center">
+                <span className="pointer-events-none text-lg hidden lg:flex tracking-tighter text-gray-500 items-center">
+                  Rating score: {review.ratingAvg} out of 5 stars{" "}
+                  <span className="text-3xl px-4">•</span>{" "}
+                  {calculateRatingString(review.ratingAvg)}
+                </span>
+              </div>
+              <div className="flex group relative w-fit pb-3">
+                <div className="flex items-center">
+                  <StarRating value={review.ratingAvg} />
+                  <p className="ms-1 px-2 text-gray-500 dark:text-gray-400">
+                    {review.ratingAvg}
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-gray-600 lucide lucide-info"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4" />
+                    <path d="M12 8h.01" />
+                  </svg>
+                </div>
+                <div className="hidden border-2 group-hover:flex flex-col grow bg-white p-4 min-w-96 absolute gap-3 rounded-lg drop-shadow-xl mt-8">
+                  <p className="text-xs">
+                    The ReviewScore isn’t just a simple average of all reviews.
+                    It’s based on multiple factors like the age and number of
+                    reviews.
+                  </p>
+                  <p className="text-xs">
+                    Whether or not a business actively asks customers to write
+                    reviews also impacts the ReviewScore.{" "}
+                    <span className="text-[#215cd4] hover:cursor-pointer">Read more.</span>
+                  </p>
+                </div>
+              </div>
+              <VerifiedBadge />
+            </div>
+            {/* <div>
+              <p className="font-medium text-sm text-gray-500 dark:text-gray-400">
+                TODO: Add google maps api autocomplete address in the post a review form
+                Located at: {review.location}
+              </p>
+            </div> */}
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow lg:px-5 pt-0 lg:pt-5"></div>
+    </main>
   );
 }

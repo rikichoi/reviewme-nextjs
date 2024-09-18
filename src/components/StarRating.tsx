@@ -6,17 +6,22 @@ interface StarRatingProps {
 
 function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
   return (
-    <span className="relative inline-block w-5 h-5">
+    <span
+      className={`${filled ? "bg-[#00b67a] " : " bg-[#dcdce6] "} ${
+        half &&
+        " bg-[image:linear-gradient(to_right,#00b67a_0%,#00b67a_50%,#dcdce6_50%,#dcdce6_100%)] "
+      } bg-[#00b67a] relative inline-block w-7 h-7 p-1 border border-[#028d5f]`}
+    >
       <Star
-        fill={filled ? "#facc15" : "none"}
+        fill={filled ? "#fcac42" : "#ffffff"}
         className={`w-full h-full ${
-          filled ? "text-yellow-400" : "text-gray-300"
+          filled ? "text-yellow-400" : "text-white"
         }`}
       />
       {half && (
-        <span className="absolute inset-0 overflow-hidden ">
+        <span className="absolute inset-0 overflow-hidden p-1">
           <StarHalf
-            fill="#facc15"
+            fill="#fcac42"
             color="#facc15"
             className="w-full h-full text-yellow-400"
           />
