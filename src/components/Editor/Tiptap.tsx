@@ -7,6 +7,8 @@ import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import "./tiptapStyles.css";
 import { Toolbar } from "./Toolbar";
 
+// TODO: FIX THE HYDRATION WARNING ERROR 
+
 type TiptapProps = {
   register: UseFormRegister<CreateReviewSchema>;
   setValue: UseFormSetValue<CreateReviewSchema>;
