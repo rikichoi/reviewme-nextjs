@@ -23,7 +23,7 @@ export default function PostCommentSection({ id }: PostCommentProps) {
           href={`/post-comment/${id}`}
           className="text-blue-700 hover:underline text-sm"
         >
-          Write a review
+          Write a comment
         </Link>
       </div>
       <Link

@@ -78,6 +78,7 @@ export default function Home({
           order={order}
         />
       </div>
+      {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}
     </main>
   );
 }
