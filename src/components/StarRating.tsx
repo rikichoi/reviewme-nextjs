@@ -1,22 +1,35 @@
+"use client";
+import { useState } from "react";
 import { Star, StarHalf } from "lucide-react";
 
 interface StarRatingProps {
   value: number;
+  allowHover: boolean;
 }
 
-function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
+function StarIcon({
+  filled,
+  half,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  filled: boolean;
+  half: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}) {
   return (
     <span
       className={`${filled ? "bg-[#00b67a] " : " bg-[#dcdce6] "} ${
         half &&
         " bg-[image:linear-gradient(to_right,#00b67a_0%,#00b67a_50%,#dcdce6_50%,#dcdce6_100%)] "
       } bg-[#00b67a] relative inline-block w-7 h-7 p-1 border border-[#028d5f]`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <Star
         fill={filled ? "#fcac42" : "#ffffff"}
-        className={`w-full h-full ${
-          filled ? "text-yellow-400" : "text-white"
-        }`}
+        className={`w-full h-full ${filled ? "text-yellow-400" : "text-white"}`}
       />
       {half && (
         <span className="absolute inset-0 overflow-hidden p-1">
@@ -31,10 +44,15 @@ function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
   );
 }
 
-export default function StarRating({ value }: StarRatingProps = { value: 0 }) {
+export default function StarRating({ value, allowHover }: StarRatingProps) {
+  const [hoveredValue, setHoveredValue] = useState<number | null>(null);
+
   const roundedValue = Math.round(value * 2) / 2;
-  const fullStars = Math.floor(roundedValue);
-  const hasHalfStar = roundedValue % 1 !== 0;
+  const fullStars = Math.floor(
+    hoveredValue !== null ? hoveredValue : roundedValue
+  );
+  const hasHalfStar =
+    (hoveredValue !== null ? hoveredValue : roundedValue) % 1 !== 0;
 
   return (
     <div
@@ -46,6 +64,8 @@ export default function StarRating({ value }: StarRatingProps = { value: 0 }) {
           key={index}
           filled={index < fullStars}
           half={hasHalfStar && index === fullStars}
+          onMouseEnter={() => allowHover && setHoveredValue(index + 1)}
+          onMouseLeave={() => allowHover && setHoveredValue(null)}
         />
       ))}
     </div>

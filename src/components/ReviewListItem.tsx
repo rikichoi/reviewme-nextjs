@@ -67,7 +67,7 @@ export default async function ReviewListItem({
     orderBy: { [sort]: order },
   });
   // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
-// TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
+  // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
       <div className="flex justify-between">
@@ -116,7 +116,7 @@ function ReviewItem({
   title,
   location,
   description,
-  category
+  category,
 }: ReviewItemProps) {
   return (
     <div className="bg-white border-2 min-h-40 rounded-lg hover:drop-shadow-lg">
@@ -137,29 +137,24 @@ function ReviewItem({
           <div className="flex flex-col gap-1">
             <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
             <div className="flex">
-              <StarRating value={ratingAvg} />
-              <p className="ms-1 text-sm px-2 font-medium text-gray-500 dark:text-gray-400">
-                |
-              </p>
-              <p className="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+              <StarRating allowHover={false} value={ratingAvg} />
+              <p className="ms-1 text-sm px-2 font-medium text-gray-500 ">|</p>
+              <p className="ms-1 text-sm font-medium text-gray-500 ">
                 {ratingAvg}
               </p>
-              <p className="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                out of
-              </p>
-              <p className="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                5
-              </p>
+              <p className="ms-1 text-sm font-medium text-gray-500 ">out of</p>
+              <p className="ms-1 text-sm font-medium text-gray-500 ">5</p>
             </div>
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {location}
-            </p>
+            <p className="text-sm text-gray-500 ">{location}</p>
           </div>
         </div>
       </Link>
-      <ReviewDescriptionDropdown category={category} description={description} />
+      <ReviewDescriptionDropdown
+        category={category}
+        description={description}
+      />
     </div>
   );
 }
