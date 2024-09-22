@@ -48,3 +48,12 @@ export const createReviewSchema = z.object({
 })
 
 export type CreateReviewSchema = z.infer<typeof createReviewSchema>;
+
+export const createCommentSchema = z.object({
+    title: requiredString,
+    comment: requiredString,
+    commentRating: requiredString,
+    experienceDate: optionalString,
+})
+
+export type CreateCommentSchema = z.infer<typeof createCommentSchema>;
