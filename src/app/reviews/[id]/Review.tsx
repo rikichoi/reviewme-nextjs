@@ -24,7 +24,7 @@ export default function Review({ description }: ReviewProps) {
           <p>*time*</p>
           <div className="flex flex-1 justify-end">
             {/* TODO: explore other options to prevent badge/child div from growing in a flex container */}
-            <Badge className="bg-slate-300 text-black font-bold tracking-wide h-fit hover:bg-slate-300">MAIN REVIEW</Badge>
+            <Badge className="bg-slate-300 text-black font-bold tracking-wide h-fit hover:bg-slate-300 hover:cursor-default">MAIN REVIEW</Badge>
           </div>
         </div>
         <div dangerouslySetInnerHTML={{ __html: description }}></div>
