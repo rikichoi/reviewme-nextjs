@@ -15,7 +15,7 @@ export async function createCommentForPost(formData: FormData, id: string) {
         data: {
             title,
             comment,
-            commentRating,
+            commentRating: parseFloat(commentRating),
             experienceDate: experienceDate || null,
             reviewId: parseInt(id),
         }

@@ -28,9 +28,11 @@ export default function PostCommentPage({
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<CreateCommentSchema>({
     resolver: zodResolver(createCommentSchema),
+    defaultValues: { commentRating: "2.5" },
   });
 
   const { field } = useController<CreateCommentSchema>({
@@ -57,7 +59,6 @@ export default function PostCommentPage({
   }
 
   return (
-    // TODO: Implement functionality to post a comment about the review using React Hook Form and Zod validation!
     <form
       onSubmit={handleSubmit((data) => onSubmit(data, id))}
       className="max-w-2xl bg-white mx-auto my-10 p-8 shadow border space-y-3"
@@ -88,12 +89,26 @@ export default function PostCommentPage({
         </label>
         <input
           {...register("commentRating")}
+          type="range"
+          aria-invalid={errors.commentRating ? "true" : "false"}
           id="commentRating"
           name="commentRating"
-          className={`${
-            errors.title?.message && "border-red-500 "
-          } border p-2 rounded-lg`}
-        ></input>
+          min="0"
+          max="5"
+          step="0.5"
+          className="bg-blue-200 w-full h-4 cursor-pointer "
+        />
+        <p className="font-semibold text-green-500 text-lg text-center">
+          {watch("commentRating")}
+        </p>
+        <div className="flex justify-between mt-2 mr-0.5">
+          <span className="text-sm text-gray-500">0</span>
+          <span className="text-sm text-gray-500">1</span>
+          <span className="text-sm text-gray-500">2</span>
+          <span className="text-sm text-gray-500">3</span>
+          <span className="text-sm text-gray-500">4</span>
+          <span className="text-sm text-gray-500">5</span>
+        </div>
         <p className="text-red-500">{errors.commentRating?.message}</p>
       </div>
       <div className="flex flex-col">
@@ -109,7 +124,7 @@ export default function PostCommentPage({
           name="comment"
           placeholder="What made your experience great? Perhaps provide an anecdote! Remember to be honest, helpful, and constructive!"
           className={`${
-            errors.title?.message && "border-red-500 "
+            errors.comment?.message && "border-red-500 "
           } border p-2 rounded-lg min-h-32`}
         ></textarea>
         <p className="text-red-500">{errors.comment?.message}</p>

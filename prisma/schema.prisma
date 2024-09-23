@@ -26,7 +26,7 @@ model comments {
   id             Int       @id @default(autoincrement())
   title          String
   comment        String
-  commentRating  String
+  commentRating  Float
   experienceDate DateTime?
   reviewId       Int
   review         reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)

@@ -52,7 +52,7 @@ export type CreateReviewSchema = z.infer<typeof createReviewSchema>;
 export const createCommentSchema = z.object({
     title: requiredString,
     comment: requiredString,
-    commentRating: requiredString,
+    commentRating: numericRequiredString,
     experienceDate: z.coerce.date().optional(),
 })
 
