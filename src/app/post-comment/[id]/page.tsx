@@ -35,7 +35,7 @@ export default function PostCommentPage({
   const { field } = useController<CreateCommentSchema>({
     name: "experienceDate",
     control: control,
-    defaultValue: new Date().toISOString(),
+    
   });
 
   const onSubmit: SubmitHandler<CreateCommentSchema> = (data) =>
