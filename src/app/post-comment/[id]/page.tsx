@@ -1,9 +1,18 @@
 "use client";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createCommentSchema, CreateCommentSchema } from "@/lib/validation";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
 
 type PostCommentPageProps = {
   params: {
@@ -17,9 +26,16 @@ export default function PostCommentPage({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<CreateCommentSchema>({
     resolver: zodResolver(createCommentSchema),
+  });
+
+  const { field } = useController<CreateCommentSchema>({
+    name: "experienceDate",
+    control: control,
+    defaultValue: new Date().toISOString(),
   });
 
   const onSubmit: SubmitHandler<CreateCommentSchema> = (data) =>
@@ -42,9 +58,11 @@ export default function PostCommentPage({
           {...register("title")}
           id="title"
           name="title"
-          className="border p-2 rounded-lg"
+          className={`${
+            errors.title?.message && "border-red-500 "
+          } border p-2 rounded-lg`}
         ></input>
-        <p>{errors.title?.message}</p>
+        <p className="text-red-500">{errors.title?.message}</p>
       </div>
       <div className="flex flex-col">
         <label
@@ -57,9 +75,11 @@ export default function PostCommentPage({
           {...register("commentRating")}
           id="commentRating"
           name="commentRating"
-          className="border p-2 rounded-lg"
+          className={`${
+            errors.title?.message && "border-red-500 "
+          } border p-2 rounded-lg`}
         ></input>
-        <p>{errors.commentRating?.message}</p>
+        <p className="text-red-500">{errors.commentRating?.message}</p>
       </div>
       <div className="flex flex-col">
         <label
@@ -73,9 +93,11 @@ export default function PostCommentPage({
           id="comment"
           name="comment"
           placeholder="What made your experience great? Perhaps provide an anecdote! Remember to be honest, helpful, and constructive!"
-          className="border p-2 rounded-lg min-h-32"
+          className={`${
+            errors.title?.message && "border-red-500 "
+          } border p-2 rounded-lg min-h-32`}
         ></textarea>
-        <p>{errors.comment?.message}</p>
+        <p className="text-red-500">{errors.comment?.message}</p>
       </div>
       <div className="flex flex-col">
         <label
@@ -84,16 +106,36 @@ export default function PostCommentPage({
         >
           Date of experience
         </label>
-        <input
-          {...register("experienceDate")}
-          id="experienceDate"
-          name="experienceDate"
-          className="border p-2 rounded-lg"
-        ></input>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[240px] pl-3 text-left font-normal",
+                !field.value && "text-muted-foreground"
+              )}
+            >
+              {field.value ? (
+                format(field.value, "PPP")
+              ) : (
+                <span>Pick a date</span>
+              )}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent {...field} className="w-auto p-0" align="start">
+            <Calendar
+              selected={field.value ? new Date(field.value) : undefined}
+              onSelect={field.onChange}
+              mode="single"
+            />
+          </PopoverContent>
+        </Popover>
+        <p className="text-red-500">{errors.experienceDate?.message}</p>
       </div>
       <button
         type="submit"
-        className="border rounded-lg p-2 text-white bg-[#1c1c1c]"
+        className="border rounded-lg p-2 text-white bg-[#1c1c1c] w-full"
       >
         Submit
       </button>

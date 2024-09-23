@@ -53,7 +53,7 @@ export const createCommentSchema = z.object({
     title: requiredString,
     comment: requiredString,
     commentRating: requiredString,
-    experienceDate: optionalString,
+    experienceDate: z.date().optional(),
 })
 
 export type CreateCommentSchema = z.infer<typeof createCommentSchema>;
