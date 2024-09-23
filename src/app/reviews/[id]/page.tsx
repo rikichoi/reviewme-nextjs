@@ -105,7 +105,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           <Review description={review.description} />
           <PostCommentSection id={id} />
           <CommentsFilterBar />
-          <Comments />
+          <Comments id={id}/>
         </div>
         <div>
           <div className="border bg-white rounded-lg flex items-center mb-2">

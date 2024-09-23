@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
+import { useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createCommentSchema, CreateCommentSchema } from "@/lib/validation";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
+import { createCommentForPost } from "./actions";
 
 type PostCommentPageProps = {
   params: {
@@ -35,17 +36,31 @@ export default function PostCommentPage({
   const { field } = useController<CreateCommentSchema>({
     name: "experienceDate",
     control: control,
-    
   });
 
-  const onSubmit: SubmitHandler<CreateCommentSchema> = (data) =>
-    console.log(data);
+  async function onSubmit(data: CreateCommentSchema, id: string) {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (data) {
+        if (key === "experienceDate") {
+          if (value) formData.append(key, value.toString());
+        } else {
+          formData.append(key, value.toString());
+        }
+      }
+    });
+    try {
+      await createCommentForPost(formData, id);
+    } catch (e) {
+      alert(e);
+    }
+  }
 
   return (
     // TODO: Implement functionality to post a comment about the review using React Hook Form and Zod validation!
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-3xl bg-white mx-auto my-10 p-8 shadow border space-y-3"
+      onSubmit={handleSubmit((data) => onSubmit(data, id))}
+      className="max-w-2xl bg-white mx-auto my-10 p-8 shadow border space-y-3"
     >
       <div className="flex flex-col">
         <label
