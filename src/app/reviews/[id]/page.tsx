@@ -30,7 +30,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
   }
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">
-      <div className="bg-white border-b min-h-40 w-full p-2">
+      <div className="bg-white border-b min-h-40 w-full p-2 sticky top-0 md:static">
         <div className="grid grid-cols-3 gap-5 p-5 max-w-5xl mx-auto">
           <Link href={`/reviews/${id}`} className="items-center w-fit flex">
             <Image
@@ -48,8 +48,8 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
               </h1>
               <div className="flex items-center">
                 <span className="pointer-events-none text-lg hidden md:flex tracking-tighter text-gray-500 items-center">
-                  Rating score: {review.ratingAvg} out of 5 stars{" "}
-                  <span className="text-3xl px-4">•</span>{" "}
+                  Rating score: {review.ratingAvg} out of 5 stars
+                  <span className="text-3xl px-4">•</span>
                   {calculateRatingString(review.ratingAvg)}
                 </span>
               </div>
@@ -100,7 +100,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow md:px-5 pt-0 md:pt-5">
+      <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow px-10 md:px-5 pt-0 md:pt-5">
         <div className="flex-1 flex flex-col gap-4">
           <Review description={review.description} />
           <PostCommentSection id={id} />
