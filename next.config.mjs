@@ -5,7 +5,9 @@ const nextConfig = {
       { hostname: "zumfm6boirlwmnsj.public.blob.vercel-storage.com" },
     ],
   },
-  serverExternalPackages: ["@node-rs/argon2"],
+  experimental: {
+    serverComponentsExternalPackages: ["@node-rs/argon2"],
+  },
 };
 
 export default nextConfig;
