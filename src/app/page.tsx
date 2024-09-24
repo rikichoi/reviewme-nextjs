@@ -43,7 +43,7 @@ export default function Home({
               <path d="M12 8h.01" />
             </svg>
           </div>
-          <div className="hidden border-2 group-hover:flex flex-col grow right-0 bg-white p-4 min-w-96 absolute gap-3 rounded-lg drop-shadow-xl mt-1">
+          <div className="hidden border-2 group-hover:flex z-40 flex-col grow right-0 bg-white p-4 min-w-96 absolute gap-3 rounded-lg drop-shadow-xl mt-1">
             <p className="text-xs">
               Companies on ReviewMe can choose relevant categories to describe
               their industry, products, or services.
@@ -78,6 +78,7 @@ export default function Home({
           order={order}
         />
       </div>
+      {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}
     </main>
   );
 }
