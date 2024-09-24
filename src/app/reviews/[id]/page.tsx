@@ -6,6 +6,12 @@ import { error } from "console";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Comments from "./Comments";
+import CommentsFilterBar from "./CommentsFilterBar";
+import PostCommentSection from "./PostCommentSection";
+import banner1 from "@/assets/banner1.jpeg";
+import { Mail, MapPin, Phone } from "lucide-react";
+import Review from "./Review";
 
 type ReviewPageProps = {
   params: {
@@ -24,7 +30,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
   }
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">
-      <div className="bg-white border-b min-h-40 w-full p-2">
+      <div className="bg-white border-b min-h-40 w-full p-2 sticky top-0 md:static">
         <div className="grid grid-cols-3 gap-5 p-5 max-w-5xl mx-auto">
           <Link href={`/reviews/${id}`} className="items-center w-fit flex">
             <Image
@@ -37,22 +43,20 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           </Link>
           <div className="col-span-2 space-y-3">
             <div className="flex flex-col">
-              <h1 className="text-3xl lg:text-4xl tracking-tight font-bold">
+              <h1 className="text-3xl md:text-4xl tracking-tight font-bold">
                 {review.title}
               </h1>
               <div className="flex items-center">
-                <span className="pointer-events-none text-lg hidden lg:flex tracking-tighter text-gray-500 items-center">
-                  Rating score: {review.ratingAvg} out of 5 stars{" "}
-                  <span className="text-3xl px-4">•</span>{" "}
+                <span className="pointer-events-none text-lg hidden md:flex tracking-tighter text-gray-500 items-center">
+                  Rating score: {review.ratingAvg} out of 5 stars
+                  <span className="text-3xl px-4">•</span>
                   {calculateRatingString(review.ratingAvg)}
                 </span>
               </div>
               <div className="flex group relative w-fit pb-3">
                 <div className="flex items-center">
-                  <StarRating value={review.ratingAvg} />
-                  <p className="ms-1 px-2 text-gray-500 dark:text-gray-400">
-                    {review.ratingAvg}
-                  </p>
+                  <StarRating allowHover={false} value={review.ratingAvg} />
+                  <p className="ms-1 px-2 text-gray-500 ">{review.ratingAvg}</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -79,7 +83,9 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
                   <p className="text-xs">
                     Whether or not a business actively asks customers to write
                     reviews also impacts the ReviewScore.{" "}
-                    <span className="text-[#215cd4] hover:cursor-pointer">Read more.</span>
+                    <span className="text-[#215cd4] hover:cursor-pointer">
+                      Read more.
+                    </span>
                   </p>
                 </div>
               </div>
@@ -94,7 +100,76 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow lg:px-5 pt-0 lg:pt-5"></div>
+      <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow px-10 md:px-5 pt-0 md:pt-5">
+        <div className="flex-1 flex flex-col gap-4">
+          <Review description={review.description} />
+          <PostCommentSection id={id} />
+          <CommentsFilterBar />
+          <Comments id={id}/>
+        </div>
+        <div>
+          <div className="border bg-white rounded-lg flex items-center mb-2">
+            <div className="flex items-center flex-col gap-2 py-5 flex-1">
+              <div className="max-w-64">
+                <h2 className="text-sm font-semibold tracking-tight">
+                  On a mission to become Australia’s flexiest bank
+                </h2>
+                <p className="text-xs font-semibold tracking-tight text-gray-400">
+                  Information written by the company
+                </p>
+              </div>
+              <div className="px-8">
+                <Image
+                  alt="User Icon"
+                  src={banner1}
+                  className="max-w-64 rounded-lg"
+                  width={300}
+                  height={300}
+                />
+              </div>
+              <hr className="border-slate-200 w-4/5 my-2" />
+              <div className="max-w-72 w-full">
+                <h2 className="text-sm font-semibold tracking-tight">
+                  About ReviewMe
+                </h2>
+                <p className="text-xs font-semibold tracking-tight text-gray-400 mb-2">
+                  Information written by the company
+                </p>
+                <p className="text-xs font-medium tracking-wide">
+                  ReviewMe is a dynamic review posting platform where users can
+                  share honest feedback on a wide range of products, services,
+                  and experiences. Whether you`&apos;`re reviewing a restaurant,
+                  a gadget, an app, or a vacation destination, ReviewMe offers a
+                  user-friendly interface that encourages thoughtful, detailed
+                  reviews. With easy search functionality, users can quickly
+                  find and compare feedback, helping them make informed
+                  decisions before purchasing or experiencing something new.
+                  ReviewMe fosters a community of reviewers, rewarding members
+                  with points and badges for contributing helpful, authentic
+                  reviews and making the platform an essential hub for
+                  discovering real opinions.
+                </p>
+              </div>
+              <hr className="border-slate-200 w-4/5 my-2" />
+              <div className="max-w-72 w-full space-y-3">
+                <h2 className="text-sm font-semibold tracking-tight">
+                  Contact
+                </h2>
+                {/* TODO: Add contact information */}
+                <span className="flex items-center gap-3 text-sm">
+                  <Phone size={16} /> *User phone number*
+                </span>
+                <span className="flex items-center gap-3 text-sm">
+                  <MapPin size={16} /> *User address*
+                </span>
+                <span className="flex items-center gap-3 text-sm">
+                  <Mail size={16} /> *User email*
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

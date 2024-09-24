@@ -178,7 +178,7 @@ export default function PostReviewForm() {
           min="0"
           max="5"
           step="0.5"
-          className="bg-blue-200 w-full h-4 cursor-pointer dark:bg-gray-700"
+          className="bg-blue-200 w-full h-4 cursor-pointer "
         />
         <div className="flex justify-between mt-2 mr-0.5">
           <span className="text-sm text-gray-500">0</span>
