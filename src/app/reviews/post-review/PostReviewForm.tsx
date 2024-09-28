@@ -34,7 +34,6 @@ export default function PostReviewForm() {
   });
 
   async function onSubmit(data: CreateReviewSchema) {
-    console.log(data);
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (data) {
@@ -53,7 +52,8 @@ export default function PostReviewForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit((data) => onSubmit(data, session))}
+            onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-3 w-full"
     >
       <div className="flex flex-col">

@@ -46,7 +46,7 @@ export default async function ReviewListItem({
   });
   const reviews = await prisma.reviews.findMany({
     where: {
-      verified: true,
+      verified: false,
       AND: [
         {
           title: {
