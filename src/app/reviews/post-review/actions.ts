@@ -4,7 +4,7 @@ import { createReviewSchema } from "@/lib/validation";
 import { put } from "@vercel/blob";
 import { redirect } from "next/navigation";
 import path from "path";
-
+// TODO:ALLOW USER ID TO BE PASSED TO API END POINT
 export async function postReview(formData: FormData) {
     const reviewValues = Object.fromEntries(formData.entries());
     const { category, description, location, ratingAvg, title, reviewImageUrl } = createReviewSchema.parse(reviewValues)
@@ -20,6 +20,7 @@ export async function postReview(formData: FormData) {
 
     await prisma.reviews.create({
         data: {
+            userId: undefined,
             category,
             description: description.trim(),
             location,

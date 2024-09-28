@@ -17,8 +17,8 @@ model reviews {
   ratingAvg      Float
   category       String
   verified       Boolean @default(false)
-  userId         String
-  User           users   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String?
+  User           users?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
