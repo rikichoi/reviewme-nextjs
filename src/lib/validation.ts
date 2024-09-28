@@ -26,7 +26,6 @@ const reviewImageUrlSchema = z.custom<File | undefined>()
     }, "File must be less than 2MB");
 
 export const createReviewSchema = z.object({
-    userId: optionalString,
     reviewImageUrl: reviewImageUrlSchema,
     title: requiredString,
     description: requiredString.refine(value => value !== "<p></p>", "Description is required"),
