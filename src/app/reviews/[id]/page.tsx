@@ -24,6 +24,9 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
     where: {
       id: parseInt(id),
     },
+    include: {
+      User: true,
+    },
   });
   if (!review) {
     throw error;
@@ -102,10 +105,10 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
       </div>
       <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow px-10 md:px-5 pt-0 md:pt-5">
         <div className="flex-1 flex flex-col gap-4">
-          <Review description={review.description} />
+          <Review reviewDetails={review} />
           <PostCommentSection id={id} />
           <CommentsFilterBar />
-          <Comments id={id}/>
+          <Comments id={id} />
         </div>
         <div>
           <div className="border bg-white rounded-lg flex items-center mb-2">

@@ -17,3 +17,7 @@ export function calculateRatingString(rating: number) {
 export function formatDate(date: Date) {
   return format(date, "PPP");
 }
+
+export function formatConciseDate(date: Date) {
+  return format(date, "MM/dd/yyyy");
+}
