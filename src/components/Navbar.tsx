@@ -38,9 +38,9 @@ export default async function Navbar() {
           ) : (
             <Link
               href={"/login"}
-              className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white"
+              className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#00b67a]  hover:bg-green-700 hover:text-white"
             >
-              Login
+              Log In
             </Link>
           )}
         </div>

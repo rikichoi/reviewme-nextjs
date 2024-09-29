@@ -4,10 +4,22 @@ import React from "react";
 import StarRating from "@/components/StarRating";
 import ReviewDescriptionDropdown from "@/components/ReviewDescriptionDropdown";
 import ChangeStatusButton from "./ChangeStatusButton";
+import { logout } from "../(auth)/actions";
+import { redirect } from "next/navigation";
+import { getUser } from "@/auth";
 
 export default async function AdminPage() {
   // const formattedCreatedAt = createdAtd;
   // TODO: ADD account admin status verification else redirect to login
+  const admin = await getUser();
+  if (!admin) {
+    redirect("/login");
+  }
+
+  if (admin.role != "admin") {
+    throw Error("Only admins can access this page.");
+  }
+
   const reviewsTotalCount = await prisma.reviews.count({
     where: {
       verified: false,
@@ -24,6 +36,15 @@ export default async function AdminPage() {
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col max-w-4xl mx-auto my-8">
+      <div>
+        <h2>Admin Dashboard</h2>
+        <h3>*admin email*</h3>
+        <form action={logout}>
+          <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
+            {admin.username}
+          </button>
+        </form>
+      </div>
       <div className="flex justify-between">
         {/* TODO: append page number here */}
         {reviews.length > 0 && (

@@ -49,6 +49,7 @@ model User {
   googleId     String?   @unique
   avatarUrl    String?
   bio          String?
+  role         String    @default("user")
   sessions     Session[]
 
   createdAt DateTime   @default(now())

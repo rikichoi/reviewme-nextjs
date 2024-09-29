@@ -78,8 +78,8 @@ export default async function ReviewListItem({
           </h1>
         )}
         {reviews.length === 0 && (
-          <div className="text-center text-lg font-semibold">
-            No reviews found
+          <div className="m-auto text-center text-lg font-semibold">
+            No reviews found...
           </div>
         )}
       </div>

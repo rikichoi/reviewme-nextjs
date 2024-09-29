@@ -4,6 +4,7 @@ import { lucia } from "@/auth";
 import { redirect } from "next/navigation";
 import { logInSchema } from "@/lib/validation";
 import prisma from "@/lib/db";
+import Link from "next/link";
 
 async function login(formData: FormData): Promise<ActionResult> {
   "use server";
@@ -59,24 +60,36 @@ async function login(formData: FormData): Promise<ActionResult> {
 
 export default async function LogInPage() {
   return (
-    <div className="bg-white max-w-2xl rounded border-2 mx-auto my-8">
-      <h1 className="text-2xl font-bold tracking-tighter">Log in</h1>
-      <form action={login} className="flex flex-col">
-        <label htmlFor="username">Username</label>
-        <input
-          name="username"
-          id="username"
-          className="border-2 p-2 rounded-lg"
-        />
-        <br />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          className="border-2 p-2 rounded-lg"
-        />
-        <br />
+    <div className="bg-white max-w-lg rounded border-2 mx-auto my-8 space-y-10 p-10">
+      <div className="text-center space-y-1">
+        <h1 className="text-3xl font-bold tracking-tighter">Log In</h1>
+        <p className="text-gray-500 tracking-tighter">
+          Enter your credentials to access your account
+        </p>
+      </div>
+
+      <form action={login} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1">
+          <label className="font-medium" htmlFor="username">
+            Username
+          </label>
+          <input
+            name="username"
+            id="username"
+            className="border-2 p-2 rounded-lg"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="font-medium" htmlFor="password">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="border-2 p-2 rounded-lg"
+          />
+        </div>
         <button
           type="submit"
           className="border rounded-lg p-2 text-white bg-[#1c1c1c] w-full"
@@ -84,6 +97,13 @@ export default async function LogInPage() {
           Log in
         </button>
       </form>
+      <br />
+      <p className="text-center text-gray-600">
+        Don&apos;t have an account?{" "}
+        <Link className="text-blue-500 hover:underline" href={"/signup"}>
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }
