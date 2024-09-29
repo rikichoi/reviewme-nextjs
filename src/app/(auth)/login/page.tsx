@@ -9,7 +9,7 @@ import Link from "next/link";
 async function login(formData: FormData): Promise<ActionResult> {
   "use server";
   const values = Object.fromEntries(formData.entries());
-
+  const redirectUrl = values.jobId || "";
   const { password, username } = logInSchema.parse(values);
 
   const existingUser = await prisma.user.findFirst({
@@ -55,10 +55,16 @@ async function login(formData: FormData): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return redirect(`/${redirectUrl}`);
 }
 
-export default async function LogInPage() {
+type LogInPageProps = {
+  searchParams: { redirectUrl?: string };
+};
+
+export default async function LogInPage({
+  searchParams: { redirectUrl },
+}: LogInPageProps) {
   return (
     <div className="bg-white max-w-lg rounded border-2 mx-auto my-8 space-y-10 p-10">
       <div className="text-center space-y-1">
@@ -69,6 +75,7 @@ export default async function LogInPage() {
       </div>
 
       <form action={login} className="flex flex-col gap-5">
+        <input hidden name="jobId" value={redirectUrl} />
         <div className="flex flex-col gap-1">
           <label className="font-medium" htmlFor="username">
             Username

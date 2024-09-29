@@ -12,6 +12,7 @@ type ReviewListItemProps = {
   verified?: boolean;
   sort?: string;
   order?: string;
+  page: string;
 };
 
 export default async function ReviewListItem({
@@ -20,8 +21,38 @@ export default async function ReviewListItem({
   query,
   sort = "createdAt",
   order = "desc",
+  page = "1",
 }: ReviewListItemProps) {
-  // const formattedCreatedAt = createdAtd;
+  const currentPage = parseInt(page);
+
+  const pageSize = 6;
+
+  const reviews = await prisma.reviews.findMany({
+    where: {
+      verified: true,
+      AND: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+          category: {
+            contains: category,
+            mode: "insensitive",
+          },
+          location: {
+            contains: location,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    orderBy: {
+      [sort]: order,
+    },
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
+  });
 
   const reviewsTotalCount = await prisma.reviews.count({
     where: {
@@ -44,28 +75,28 @@ export default async function ReviewListItem({
       ],
     },
   });
-  const reviews = await prisma.reviews.findMany({
-    where: {
-      verified: true,
-      AND: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-          category: {
-            contains: category,
-            mode: "insensitive",
-          },
-          location: {
-            contains: location,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-    orderBy: { [sort]: order },
-  });
+  // const reviews = await prisma.reviews.findMany({
+  //   where: {
+  //     verified: true,
+  //     AND: [
+  //       {
+  //         title: {
+  //           contains: query,
+  //           mode: "insensitive",
+  //         },
+  //         category: {
+  //           contains: category,
+  //           mode: "insensitive",
+  //         },
+  //         location: {
+  //           contains: location,
+  //           mode: "insensitive",
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   orderBy: { [sort]: order },
+  // });
   // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (

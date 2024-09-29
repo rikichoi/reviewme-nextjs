@@ -1,5 +1,7 @@
 import FilterSidebar from "@/components/FilterSidebar";
+import { PaginationBar } from "@/components/PaginationBar";
 import ReviewListItem from "@/components/ReviewListItem";
+import prisma from "@/lib/db";
 
 type HomeProps = {
   searchParams: {
@@ -9,12 +11,30 @@ type HomeProps = {
     verified?: boolean;
     sort?: string;
     order?: string;
+    page: string;
   };
 };
 
-export default function Home({
-  searchParams: { category, location, query, verified, sort, order },
+export default async function Home({
+  searchParams: {
+    category,
+    location,
+    query,
+    verified,
+    sort,
+    order,
+    page = "1",
+  },
 }: HomeProps) {
+  const currentPage = parseInt(page);
+
+  const totalItemCount = await prisma.reviews.count({
+    where: { verified: true },
+  });
+  const pageSize = 6;
+
+  const totalPages = Math.ceil(totalItemCount / pageSize);
+
   return (
     <main className="flex flex-col items-center justify-items-center mb-10 ">
       <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white border-b">
@@ -70,6 +90,7 @@ export default function Home({
           order={order}
         />
         <ReviewListItem
+          page={page}
           category={category}
           location={location}
           query={query}
@@ -79,6 +100,7 @@ export default function Home({
         />
       </div>
       {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}
+      <PaginationBar currentPage={currentPage} totalPages={totalPages} />
     </main>
   );
 }

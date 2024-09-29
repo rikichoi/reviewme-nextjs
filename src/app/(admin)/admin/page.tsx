@@ -13,7 +13,7 @@ export default async function AdminPage() {
   // TODO: ADD account admin status verification else redirect to login
   const admin = await getUser();
   if (!admin) {
-    redirect("/login");
+    redirect("/login?redirectUrl=admin");
   }
 
   if (admin.role != "admin") {
