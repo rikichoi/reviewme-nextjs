@@ -23,6 +23,7 @@ export default async function Navbar() {
           </span>
         </Link>
         <div className="flex gap-2 items-center">
+          {session && <span className="text-white text-2xl font-semibold tracking-tighter mr-3">{session.displayName}</span>}
           <Link
             href={"/reviews/post-review"}
             className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white"
@@ -31,8 +32,8 @@ export default async function Navbar() {
           </Link>
           {session ? (
             <form action={logout}>
-              <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
-                {session.username}
+              <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#f86868] hover:bg-red-700 hover:text-white">
+                Sign Out
               </button>
             </form>
           ) : (
