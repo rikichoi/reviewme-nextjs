@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { createCommentForPost } from "./actions";
+import { getUser } from "@/auth";
+import { redirect } from "next/navigation";
 
 type PostCommentPageProps = {
   params: {
@@ -24,6 +26,12 @@ type PostCommentPageProps = {
 export default function PostCommentPage({
   params: { id },
 }: PostCommentPageProps) {
+  const session = getUser();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   const {
     register,
     handleSubmit,
