@@ -57,3 +57,18 @@ export const createCommentSchema = z.object({
 })
 
 export type CreateCommentSchema = z.infer<typeof createCommentSchema>;
+
+export const signUpSchema = z.object({
+    email: z.string().trim().min(1, "Required").email("Invalid email"),
+    username: requiredString.regex(/^[a-zA-Z0-9_-]*$/, "Only letters, numbers, - and _ allowed"),
+    password: requiredString.min(8, "Password must be at least 8 characters long"),
+})
+
+export type SignUpValues = z.infer<typeof signUpSchema>;
+
+export const logInSchema = z.object({
+    username: requiredString,
+    password: requiredString,
+})
+
+export type LogInValues = z.infer<typeof logInSchema>;

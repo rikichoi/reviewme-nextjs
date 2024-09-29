@@ -1,75 +1,50 @@
 import prisma from "@/lib/db";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import StarRating from "./StarRating";
-import ReviewDescriptionDropdown from "./ReviewDescriptionDropdown";
+import StarRating from "@/components/StarRating";
+import ReviewDescriptionDropdown from "@/components/ReviewDescriptionDropdown";
+import ChangeStatusButton from "./ChangeStatusButton";
+import { logout } from "../(auth)/actions";
+import { redirect } from "next/navigation";
+import { getUser } from "@/auth";
 
-type ReviewListItemProps = {
-  query?: string;
-  location?: string;
-  category?: string;
-  verified?: boolean;
-  sort?: string;
-  order?: string;
-};
-
-export default async function ReviewListItem({
-  category,
-  location,
-  query,
-  sort = "createdAt",
-  order = "desc",
-}: ReviewListItemProps) {
+export default async function AdminPage() {
   // const formattedCreatedAt = createdAtd;
+  // TODO: ADD account admin status verification else redirect to login
+  const admin = await getUser();
+  if (!admin) {
+    redirect("/login");
+  }
+
+  if (admin.role != "admin") {
+    throw Error("Only admins can access this page.");
+  }
 
   const reviewsTotalCount = await prisma.reviews.count({
     where: {
-      verified: true,
-      AND: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-          category: {
-            contains: category,
-            mode: "insensitive",
-          },
-          location: {
-            contains: location,
-            mode: "insensitive",
-          },
-        },
-      ],
+      verified: false,
     },
+    orderBy: { createdAt: "desc" },
   });
   const reviews = await prisma.reviews.findMany({
     where: {
-      verified: true,
-      AND: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-          category: {
-            contains: category,
-            mode: "insensitive",
-          },
-          location: {
-            contains: location,
-            mode: "insensitive",
-          },
-        },
-      ],
+      verified: false,
     },
-    orderBy: { [sort]: order },
+    orderBy: { createdAt: "desc" },
   });
   // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
-    <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
+    <div className="grow gap-3 lg:px-0 px-5 flex flex-col max-w-4xl mx-auto my-8">
+      <div>
+        <h2>Admin Dashboard</h2>
+        <h3>*admin email*</h3>
+        <form action={logout}>
+          <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
+            {admin.username}
+          </button>
+        </form>
+      </div>
       <div className="flex justify-between">
         {/* TODO: append page number here */}
         {reviews.length > 0 && (
@@ -78,8 +53,8 @@ export default async function ReviewListItem({
           </h1>
         )}
         {reviews.length === 0 && (
-          <div className="m-auto text-center text-lg font-semibold">
-            No reviews found...
+          <div className="text-center text-lg font-semibold">
+            No reviews found
           </div>
         )}
       </div>
@@ -120,10 +95,7 @@ function ReviewItem({
 }: ReviewItemProps) {
   return (
     <div className="bg-white border-2 min-h-40 rounded-lg hover:drop-shadow-lg">
-      <Link
-        href={`/reviews/${id}`}
-        className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-32"
-      >
+      <div className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-32">
         <div className="items-center flex">
           <Image
             className="object-cover rounded max-h-24"
@@ -135,7 +107,13 @@ function ReviewItem({
         </div>
         <div className="col-span-2 space-y-3">
           <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+            <div className="flex justify-between">
+              <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+              <div className="flex space-x-2 justify-end">
+                <ChangeStatusButton status={"decline"} id={id} />
+                <ChangeStatusButton status={"approve"} id={id} />
+              </div>
+            </div>
             <div className="flex">
               <StarRating allowHover={false} value={ratingAvg} />
               <p className="ms-1 text-sm px-2 font-medium text-gray-500 ">|</p>
@@ -150,7 +128,7 @@ function ReviewItem({
             <p className="text-sm text-gray-500 ">{location}</p>
           </div>
         </div>
-      </Link>
+      </div>
       <ReviewDescriptionDropdown
         category={category}
         description={description}

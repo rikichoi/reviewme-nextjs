@@ -1,4 +1,5 @@
 "use server";
+import { getUser } from "@/auth";
 import prisma from "@/lib/db";
 import { createReviewSchema } from "@/lib/validation";
 import { put } from "@vercel/blob";
@@ -6,6 +7,12 @@ import { redirect } from "next/navigation";
 import path from "path";
 
 export async function postReview(formData: FormData) {
+    const user = await getUser();
+    let userId = null;
+    if (user) {
+        userId = user.id;
+    }
+  
     const reviewValues = Object.fromEntries(formData.entries());
     const { category, description, location, ratingAvg, title, reviewImageUrl } = createReviewSchema.parse(reviewValues)
 
@@ -20,6 +27,7 @@ export async function postReview(formData: FormData) {
 
     await prisma.reviews.create({
         data: {
+            userId,
             category,
             description: description.trim(),
             location,
@@ -30,5 +38,5 @@ export async function postReview(formData: FormData) {
             updatedAt: new Date().toISOString(),
         }
     })
-redirect("/reviews/post-confirmation")
+    redirect("/reviews/post-confirmation")
 }
