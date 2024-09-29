@@ -108,7 +108,7 @@ export default async function SignUpPage() {
           type="submit"
           className="border rounded-lg p-2 text-white bg-[#1c1c1c] w-full"
         >
-          Log in
+          Sign Up
         </button>
       </form>
       <br />

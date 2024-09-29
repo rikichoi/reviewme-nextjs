@@ -4,9 +4,9 @@ import React from "react";
 import StarRating from "@/components/StarRating";
 import ReviewDescriptionDropdown from "@/components/ReviewDescriptionDropdown";
 import ChangeStatusButton from "./ChangeStatusButton";
-import { logout } from "../(auth)/actions";
 import { redirect } from "next/navigation";
 import { getUser } from "@/auth";
+import { logout } from "@/app/(auth)/actions";
 
 export default async function AdminPage() {
   // const formattedCreatedAt = createdAtd;
@@ -36,14 +36,18 @@ export default async function AdminPage() {
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col max-w-4xl mx-auto my-8">
-      <div>
-        <h2>Admin Dashboard</h2>
-        <h3>*admin email*</h3>
-        <form action={logout}>
-          <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white">
-            {admin.username}
-          </button>
-        </form>
+      <div className="flex justify-between">
+        <h2 className="font-semibold underline tracking-tight text-lg">
+          Admin Dashboard
+        </h2>
+        <div className="flex items-center gap-2">
+          <h3>{admin.username}</h3>
+          <form action={logout}>
+            <button className="h-fit w-fit py-3 px-5 rounded-full text-sm  font-bold tracking-tighter bg-[#f86868] hover:bg-red-700 hover:text-white">
+              Log Out
+            </button>
+          </form>
+        </div>
       </div>
       <div className="flex justify-between">
         {/* TODO: append page number here */}
@@ -53,8 +57,8 @@ export default async function AdminPage() {
           </h1>
         )}
         {reviews.length === 0 && (
-          <div className="text-center text-lg font-semibold">
-            No reviews found
+          <div className="text-center text-3xl py-5 font-semibold mx-auto">
+            <p>No reviews pending approval</p>
           </div>
         )}
       </div>
