@@ -113,7 +113,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
         <div>
           <div className="border bg-white rounded-lg flex items-center mb-2">
             <div className="flex items-center flex-col gap-2 py-5 flex-1">
-              <div className="max-w-64">
+              <div className="px-5 sm:px-0 sm:max-w-64">
                 <h2 className="text-sm font-semibold tracking-tight">
                   On a mission to become Australia’s flexiest bank
                 </h2>
@@ -121,40 +121,47 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
                   Information written by the company
                 </p>
               </div>
-              <div className="px-8">
+              <div className="px-8 shrink flex">
                 <Image
                   alt="User Icon"
                   src={banner1}
-                  className="max-w-64 rounded-lg"
+                  className="max-w-32 shrink flex sm:max-w-64 rounded-lg"
                   width={300}
                   height={300}
                 />
               </div>
               <hr className="border-slate-200 w-4/5 my-2" />
-              <div className="max-w-72 w-full">
+              <div className="px-5 sm:px-0 sm:max-w-64">
                 <h2 className="text-sm font-semibold tracking-tight">
                   About ReviewMe
                 </h2>
                 <p className="text-xs font-semibold tracking-tight text-gray-400 mb-2">
                   Information written by the company
                 </p>
-                <p className="text-xs font-medium tracking-wide">
-                  ReviewMe is a dynamic review posting platform where users can
-                  share honest feedback on a wide range of products, services,
-                  and experiences. Whether you`&apos;`re reviewing a restaurant,
-                  a gadget, an app, or a vacation destination, ReviewMe offers a
-                  user-friendly interface that encourages thoughtful, detailed
-                  reviews. With easy search functionality, users can quickly
-                  find and compare feedback, helping them make informed
-                  decisions before purchasing or experiencing something new.
-                  ReviewMe fosters a community of reviewers, rewarding members
-                  with points and badges for contributing helpful, authentic
-                  reviews and making the platform an essential hub for
-                  discovering real opinions.
-                </p>
+                <div className="space-y-3">
+                  <p className="text-xs font-medium tracking-wide">
+                    ReviewMe is a dynamic review posting platform where users
+                    can share honest feedback on a wide range of products,
+                    services, and experiences.
+                  </p>
+                  <p className="text-xs font-medium tracking-wide">
+                    Whether you&apos;re reviewing a restaurant, a gadget, an
+                    app, or a vacation destination, ReviewMe offers a
+                    user-friendly interface that encourages thoughtful, detailed
+                    reviews. With easy search functionality, users can quickly
+                    find and compare feedback, helping them make informed
+                    decisions before purchasing or experiencing something new.
+                  </p>
+                  <p className="text-xs font-medium tracking-wide">
+                    ReviewMe fosters a community of reviewers, rewarding members
+                    with points and badges for contributing helpful, authentic
+                    reviews and making the platform an essential hub for
+                    discovering real opinions.
+                  </p>
+                </div>
               </div>
               <hr className="border-slate-200 w-4/5 my-2" />
-              <div className="max-w-72 w-full space-y-3">
+              <div className="px-5 sm:px-0 sm:max-w-64 space-y-3">
                 <h2 className="text-sm font-semibold tracking-tight">
                   Contact
                 </h2>

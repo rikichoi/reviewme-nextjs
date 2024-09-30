@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { formatConciseDate } from "@/lib/utils";
 import { ReviewWithUser } from "@/lib/types";
 
-
 type ReviewProps = {
   reviewDetails: ReviewWithUser;
 };
@@ -22,11 +21,15 @@ export default function Review({ reviewDetails }: ReviewProps) {
             width={300}
             height={300}
           />
-          <p>{reviewDetails.User?.displayName || "Anonymous User"}</p>
-          <p>{formatConciseDate(reviewDetails.createdAt)}</p>
+          <div className="space-y-1">
+            <p>{reviewDetails.User?.displayName || "Anonymous User"}</p>
+            <p className="text-sm">
+              {formatConciseDate(reviewDetails.createdAt)}
+            </p>
+          </div>
           <div className="flex flex-1 justify-end">
             {/* TODO: explore other options to prevent badge/child div from growing in a flex container */}
-            <Badge className="bg-[#3db578] text-black font-bold tracking-wide h-fit hover:bg-[#3db578] hover:cursor-default">
+            <Badge className="bg-[#3db578] hidden sm:flex text-xs text-center text-black font-bold tracking-wide h-fit hover:bg-[#3db578] hover:cursor-default">
               MAIN REVIEW
             </Badge>
           </div>
