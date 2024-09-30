@@ -4,6 +4,7 @@ import { filterReviewsSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 import prisma from "@/lib/db";
+import { unstable_cache } from "next/cache";
 
 type FilterSidebarProps = {
   query?: string;
@@ -19,8 +20,7 @@ type ReviewCategory = {
   category: string;
   count: number;
 };
-
-async function getRelevantCategories(): Promise<ReviewCategory[]> {
+const getRelevantCategories = unstable_cache(async () => {
   const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>`
       SELECT category, COUNT(*) as count 
       FROM reviews 
@@ -32,7 +32,7 @@ async function getRelevantCategories(): Promise<ReviewCategory[]> {
     category: row.category,
     count: Number(row.count),
   }));
-}
+});
 
 async function filterReviews(formData: FormData) {
   "use server";
@@ -69,9 +69,9 @@ export default async function FilterSidebar({
   const defaultSort = `${sort}&${order}`;
   const categories = await getRelevantCategories();
   return (
-    <div className="sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
+    <div className="text-xs sm:text-base sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
-      <input hidden name="page" value={page} />
+        <input hidden name="page" value={page} />
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">
             Search

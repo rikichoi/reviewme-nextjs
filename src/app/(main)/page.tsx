@@ -56,8 +56,8 @@ export default async function Home({
 
   return (
     <main className="flex flex-col items-center justify-items-center mb-10 ">
-      <div className="flex lg:flex-col items-center gap-3 w-full justify-center p-12 bg-white border-b">
-        <h1 className="text-3xl lg:text-5xl tracking-tighter font-bold">
+      <div className="flex lg:flex-col items-center gap-3 w-full justify-center py-10 bg-white border-b">
+        <h1 className="text-lg sm:text-3xl lg:text-5xl tracking-tighter font-bold">
           Best in Review Site
         </h1>
         <div className="group relative">
@@ -82,17 +82,17 @@ export default async function Home({
               <path d="M12 8h.01" />
             </svg>
           </div>
-          <div className="hidden border-2 group-hover:flex z-40 flex-col grow right-0 bg-white p-4 min-w-96 absolute gap-3 rounded-lg drop-shadow-xl mt-1">
-            <p className="text-xs">
+          <div className="hidden border-2 text-xs group-hover:flex z-40 flex-col grow sm:-right-32 bg-white p-4 -right-3 min-w-36 sm:min-w-96 absolute gap-3 rounded-lg drop-shadow-xl mt-1">
+            <p >
               Companies on ReviewMe can choose relevant categories to describe
               their industry, products, or services.
             </p>
-            <p className="text-xs">
+            <p >
               All companies in a category are eligible to be best in that
               category if they’re actively asking for reviews and have received
               25 or more reviews in the last 12 months.
             </p>
-            <p className="text-xs">
+            <p >
               Some companies on ReviewMe aren’t eligible to be best in a
               category, and others aren’t on ReviewMe at all.
             </p>

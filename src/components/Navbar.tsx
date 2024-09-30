@@ -8,7 +8,7 @@ import { logout } from "@/app/(auth)/actions";
 export default async function Navbar() {
   const session = await getUser();
   return (
-    <nav className="w-full h-[4.5rem] bg-[#1c1c1c]">
+    <nav className="w-full z-50 max-h-[4.5rem] bg-[#1c1c1c]">
       <div className="max-w-4xl m-auto flex px-2 items-center h-full justify-between">
         <Link href={"/"} className="flex items-center">
           <Image
@@ -26,12 +26,12 @@ export default async function Navbar() {
           {session && <span className="text-white text-2xl font-semibold tracking-tighter mr-3">{session.displayName}</span>}
           <Link
             href={"/reviews/post-review"}
-            className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white"
+            className="flex h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#a6c0f0] hover:bg-blue-700 hover:text-white"
           >
             Post a review
           </Link>
           {session ? (
-            <form action={logout}>
+            <form className="flex" action={logout}>
               <button className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#f86868] hover:bg-red-700 hover:text-white">
                 Sign Out
               </button>
@@ -39,7 +39,7 @@ export default async function Navbar() {
           ) : (
             <Link
               href={"/login"}
-              className="h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#00b67a]  hover:bg-green-700 hover:text-white"
+              className="flex h-fit w-fit py-3 px-5 rounded-full text-sm font-bold tracking-tighter bg-[#00b67a]  hover:bg-green-700 hover:text-white"
             >
               Log In
             </Link>
