@@ -107,6 +107,7 @@ export default async function Home({
           verified={verified}
           sort={sort}
           order={order}
+          page={currentPage}
         />
         <ReviewListItem
           page={page}

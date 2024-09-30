@@ -12,6 +12,7 @@ type FilterSidebarProps = {
   verified?: boolean;
   sort?: string;
   order?: string;
+  page?: number;
 };
 
 type ReviewCategory = {
@@ -37,7 +38,7 @@ async function filterReviews(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
 
-  const { category, location, query, verified } =
+  const { category, location, query, verified, page } =
     filterReviewsSchema.parse(values);
 
   const sort = values.sortBy.toString().split("&")[0];
@@ -50,6 +51,7 @@ async function filterReviews(formData: FormData) {
     ...(verified && { verified: "true" }),
     ...(order && { order }),
     ...(sort && { sort }),
+    ...(page && { page: page.toString() }),
   });
 
   redirect(`?${filterQuery}`);
@@ -62,12 +64,14 @@ export default async function FilterSidebar({
   verified,
   sort,
   order,
+  page,
 }: FilterSidebarProps) {
   const defaultSort = `${sort}&${order}`;
   const categories = await getRelevantCategories();
   return (
     <div className="sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
+      <input hidden name="page" value={page} />
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">
             Search
