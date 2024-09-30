@@ -66,7 +66,7 @@ export default async function FilterSidebar({
   const defaultSort = `${sort}&${order}`;
   const categories = await getRelevantCategories();
   return (
-    <div className="sticky z-50 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
+    <div className="sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">

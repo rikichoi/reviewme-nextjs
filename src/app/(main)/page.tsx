@@ -29,8 +29,27 @@ export default async function Home({
   const currentPage = parseInt(page);
 
   const totalItemCount = await prisma.reviews.count({
-    where: { verified: true },
+    where: {
+      verified: true,
+      AND: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+          category: {
+            contains: category,
+            mode: "insensitive",
+          },
+          location: {
+            contains: location,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
   });
+  
   const pageSize = 6;
 
   const totalPages = Math.ceil(totalItemCount / pageSize);
@@ -100,7 +119,16 @@ export default async function Home({
         />
       </div>
       {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}
-      <PaginationBar currentPage={currentPage} totalPages={totalPages} />
+      <PaginationBar
+        category={category}
+        location={location}
+        query={query}
+        verified={verified}
+        sort={sort}
+        order={order}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </main>
   );
 }

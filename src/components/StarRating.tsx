@@ -23,7 +23,7 @@ function StarIcon({
       className={`${filled ? "bg-[#00b67a] " : " bg-[#dcdce6] "} ${
         half &&
         " bg-[image:linear-gradient(to_right,#00b67a_0%,#00b67a_50%,#dcdce6_50%,#dcdce6_100%)] "
-      } bg-[#00b67a] relative inline-block w-7 h-7 p-1 border border-[#028d5f]`}
+      } bg-[#00b67a] relative inline-block h:3 w:3 sm:w-7 sm:h-7 p-1 border border-[#028d5f]`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
