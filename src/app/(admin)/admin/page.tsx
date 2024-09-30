@@ -9,7 +9,6 @@ import { getUser } from "@/auth";
 import { logout } from "@/app/(auth)/actions";
 
 export default async function AdminPage() {
-
   const admin = await getUser();
   if (!admin) {
     redirect("/login?redirectUrl=admin");
@@ -98,7 +97,7 @@ function ReviewItem({
 }: ReviewItemProps) {
   return (
     <div className="bg-white border-2 min-h-40 rounded-lg hover:drop-shadow-lg">
-      <div className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-32">
+      <div className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-44">
         <div className="items-center flex">
           <Image
             className="object-cover rounded max-h-24"
@@ -110,21 +109,20 @@ function ReviewItem({
         </div>
         <div className="col-span-2 space-y-3">
           <div className="flex flex-col gap-1">
-            <div className="flex justify-between">
-              <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+            <div className="flex justify-between gap-3">
+              <h1 className="text-lg font-semibold tracking-tight truncate">
+                {title}
+              </h1>
               <div className="flex space-x-2 justify-end">
                 <ChangeStatusButton status={"decline"} id={id} />
                 <ChangeStatusButton status={"approve"} id={id} />
               </div>
             </div>
-            <div className="flex">
+            <div className="flex items-center gap-2">
               <StarRating allowHover={false} value={ratingAvg} />
-              <p className="ms-1 text-sm px-2 font-medium text-gray-500 ">|</p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">
-                {ratingAvg}
+              <p className="text-sm font-medium text-gray-500 truncate">
+                {ratingAvg} | out of 5
               </p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">out of</p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">5</p>
             </div>
           </div>
           <div>

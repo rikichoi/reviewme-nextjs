@@ -144,7 +144,7 @@ function ReviewItem({
         </div>
         <div className="col-span-2 space-y-3">
           <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+            <h1 className="text-lg font-semibold tracking-tight truncate">{title}</h1>
             <div className="flex items-center gap-2">
               <StarRating allowHover={false} value={ratingAvg} />
               <p className="text-sm font-medium text-gray-500 truncate">{ratingAvg} | out of 5</p>
