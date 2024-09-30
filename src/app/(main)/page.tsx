@@ -117,6 +117,7 @@ export default async function Home({
           verified={verified}
           sort={sort}
           order={order}
+          totalItemCount={totalItemCount}
         />
       </div>
       {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}

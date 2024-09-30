@@ -13,6 +13,7 @@ type ReviewListItemProps = {
   sort?: string;
   order?: string;
   page: string;
+  totalItemCount: number;
 };
 
 export default async function ReviewListItem({
@@ -22,6 +23,7 @@ export default async function ReviewListItem({
   sort = "createdAt",
   order = "desc",
   page = "1",
+  totalItemCount,
 }: ReviewListItemProps) {
   const currentPage = parseInt(page);
 
@@ -54,27 +56,6 @@ export default async function ReviewListItem({
     take: pageSize,
   });
 
-  const reviewsTotalCount = await prisma.reviews.count({
-    where: {
-      verified: true,
-      AND: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-          category: {
-            contains: category,
-            mode: "insensitive",
-          },
-          location: {
-            contains: location,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-  });
 
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
@@ -82,8 +63,8 @@ export default async function ReviewListItem({
       <div className="flex justify-between">
         {reviews.length > 0 && (
           <h1 className="text-sm tracking-tight">
-           {(reviews.length < 6 ) ? reviewsTotalCount - reviews.length : reviews.length * (currentPage - 1)} - {(reviews.length < 6 ) ? reviewsTotalCount : reviews.length * currentPage}{" "}
-            of {reviewsTotalCount} results
+           {(reviews.length < 6 ) ? totalItemCount - reviews.length : reviews.length * (currentPage - 1)} - {(reviews.length < 6 ) ? totalItemCount : reviews.length * currentPage}{" "}
+            of {totalItemCount} results
           </h1>
         )}
         {reviews.length === 0 && (
