@@ -100,7 +100,7 @@ function ReviewItem({
       <div className="grid grid-cols-3 gap-5 p-5 border-b-2 max-h-44">
         <div className="items-center flex">
           <Image
-            className="object-cover rounded max-h-24"
+            className="object-contain rounded max-h-24"
             height={500}
             width={500}
             src={reviewImageUrl}
