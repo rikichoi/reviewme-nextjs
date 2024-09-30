@@ -9,8 +9,7 @@ import { getUser } from "@/auth";
 import { logout } from "@/app/(auth)/actions";
 
 export default async function AdminPage() {
-  // const formattedCreatedAt = createdAtd;
-  // TODO: ADD account admin status verification else redirect to login
+
   const admin = await getUser();
   if (!admin) {
     redirect("/login?redirectUrl=admin");
@@ -32,7 +31,7 @@ export default async function AdminPage() {
     },
     orderBy: { createdAt: "desc" },
   });
-  // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
+
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col max-w-4xl mx-auto my-8">

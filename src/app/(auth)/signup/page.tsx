@@ -23,7 +23,7 @@ async function signup(formData: FormData): Promise<ActionResult> {
 
   const userId = generateIdFromEntropySize(10); // 16 characters long
 
-  // TODO: check if username is already used
+
   const usernameExists = await prisma.user.findFirst({
     where: {
       username: {

@@ -80,7 +80,6 @@ export default async function ReviewListItem({
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
       <div className="flex justify-between">
-        {/* TODO: append page number here */}
         {reviews.length > 0 && (
           <h1 className="text-sm tracking-tight">
            {(reviews.length < 6 ) ? reviewsTotalCount - reviews.length : reviews.length * (currentPage - 1)} - {(reviews.length < 6 ) ? reviewsTotalCount : reviews.length * currentPage}{" "}
