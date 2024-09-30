@@ -12,6 +12,7 @@ type ReviewListItemProps = {
   verified?: boolean;
   sort?: string;
   order?: string;
+  page: string;
 };
 
 export default async function ReviewListItem({
@@ -20,8 +21,38 @@ export default async function ReviewListItem({
   query,
   sort = "createdAt",
   order = "desc",
+  page = "1",
 }: ReviewListItemProps) {
-  // const formattedCreatedAt = createdAtd;
+  const currentPage = parseInt(page);
+
+  const pageSize = 6;
+
+  const reviews = await prisma.reviews.findMany({
+    where: {
+      verified: true,
+      AND: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+          category: {
+            contains: category,
+            mode: "insensitive",
+          },
+          location: {
+            contains: location,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    orderBy: {
+      [sort]: order,
+    },
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
+  });
 
   const reviewsTotalCount = await prisma.reviews.count({
     where: {
@@ -44,37 +75,15 @@ export default async function ReviewListItem({
       ],
     },
   });
-  const reviews = await prisma.reviews.findMany({
-    where: {
-      verified: true,
-      AND: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-          category: {
-            contains: category,
-            mode: "insensitive",
-          },
-          location: {
-            contains: location,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-    orderBy: { [sort]: order },
-  });
-  // TODO: ADD PAGINATION AND FILTER THROUGH BACKEND
+
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
     <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
       <div className="flex justify-between">
-        {/* TODO: append page number here */}
         {reviews.length > 0 && (
           <h1 className="text-sm tracking-tight">
-            1 - {reviewsTotalCount} of {reviewsTotalCount} results
+           {(reviews.length < 6 ) ? reviewsTotalCount - reviews.length : reviews.length * (currentPage - 1)} - {(reviews.length < 6 ) ? reviewsTotalCount : reviews.length * currentPage}{" "}
+            of {reviewsTotalCount} results
           </h1>
         )}
         {reviews.length === 0 && (
@@ -136,14 +145,9 @@ function ReviewItem({
         <div className="col-span-2 space-y-3">
           <div className="flex flex-col gap-1">
             <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
-            <div className="flex">
+            <div className="flex items-center gap-2">
               <StarRating allowHover={false} value={ratingAvg} />
-              <p className="ms-1 text-sm px-2 font-medium text-gray-500 ">|</p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">
-                {ratingAvg}
-              </p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">out of</p>
-              <p className="ms-1 text-sm font-medium text-gray-500 ">5</p>
+              <p className="text-sm font-medium text-gray-500 truncate">{ratingAvg} | out of 5</p>
             </div>
           </div>
           <div>
