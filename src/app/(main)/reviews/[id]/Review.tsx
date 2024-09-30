@@ -22,7 +22,6 @@ export default function Review({ reviewDetails }: ReviewProps) {
             width={300}
             height={300}
           />
-          {/* TODO: Implement user and time from backend */}
           <p>{reviewDetails.User?.displayName || "Anonymous User"}</p>
           <p>{formatConciseDate(reviewDetails.createdAt)}</p>
           <div className="flex flex-1 justify-end">

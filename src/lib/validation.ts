@@ -10,6 +10,7 @@ export const filterReviewsSchema = z.object({
     location: optionalString.refine(value => locationFilterOptions.includes(value ? value : "All locations"), 'Invalid location'),
     category: optionalString.refine(value => categoryFilterOptions.includes(value ? value : "All categories"), 'Invalid category'),
     verified: z.coerce.boolean().optional(),
+    page: z.string().regex(/^(0|[1-9]\d*(\.\d{1})?|0\.\d{1})$/, "Must be a number").optional(),
 })
 
 // const MAX_FILE_SIZE = (1024 * 1024 * 2);
