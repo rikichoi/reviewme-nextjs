@@ -20,19 +20,25 @@ type ReviewCategory = {
   category: string;
   count: number;
 };
-const getRelevantCategories = unstable_cache(async () => {
-  const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>`
+const getRelevantCategories = unstable_cache(
+  async () => {
+    const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>`
       SELECT category, COUNT(*) as count 
       FROM reviews 
       WHERE verified = true
       GROUP BY category 
       ORDER BY count DESC
     `;
-  return reviewCategories.map((row) => ({
-    category: row.category,
-    count: Number(row.count),
-  }));
-});
+    return reviewCategories.map((row) => ({
+      category: row.category,
+      count: Number(row.count),
+    }));
+  },
+  ["relevat_categories"],
+  {
+    revalidate: 3 * 60 * 60,
+  }
+);
 
 async function filterReviews(formData: FormData) {
   "use server";
