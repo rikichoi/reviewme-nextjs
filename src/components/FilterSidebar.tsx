@@ -4,7 +4,6 @@ import { filterReviewsSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 import prisma from "@/lib/db";
-import { unstable_cache } from "next/cache";
 
 type FilterSidebarProps = {
   query?: string;
@@ -20,25 +19,6 @@ type ReviewCategory = {
   category: string;
   count: number;
 };
-const getRelevantCategories = unstable_cache(
-  async () => {
-    const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>`
-      SELECT category, COUNT(*) as count 
-      FROM reviews 
-      WHERE verified = true
-      GROUP BY category 
-      ORDER BY count DESC
-    `;
-    return reviewCategories.map((row) => ({
-      category: row.category,
-      count: Number(row.count),
-    }));
-  },
-  ["relevat_categories"],
-  {
-    revalidate: 3 * 60 * 60,
-  }
-);
 
 async function filterReviews(formData: FormData) {
   "use server";
@@ -72,6 +52,39 @@ export default async function FilterSidebar({
   order,
   page,
 }: FilterSidebarProps) {
+  async function getRelevantCategories() {
+    const reviewCategories = await prisma.$queryRaw<
+      ReviewCategory[]
+    >`SELECT category, COUNT(*) as count 
+        FROM reviews 
+        WHERE verified = true AND location LIKE ${location ? location : "%"}
+        GROUP BY category 
+        ORDER BY count DESC`;
+    return reviewCategories.map((row) => ({
+      category: row.category,
+      count: Number(row.count),
+    }));
+  }
+  // TODO: dive deeper into unstable cache. learn more about its use cases
+  // const getRelevantCategories = unstable_cache(
+  //   async () => {
+  //     const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>
+  //     `SELECT category, COUNT(*) as count
+  //       FROM reviews
+  //       WHERE verified = true
+  //       GROUP BY category
+  //       ORDER BY count DESC`;
+  //     return reviewCategories.map((row) => ({
+  //       category: row.category,
+  //       count: Number(row.count),
+  //     }));
+  //   },
+  //   ["relevant_categories"],
+  //   {
+  //     revalidate: 3 * 60 * 60,
+  //   }
+  // );
+
   const defaultSort = `${sort}&${order}`;
   const categories = await getRelevantCategories();
   return (

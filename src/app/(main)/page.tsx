@@ -3,7 +3,6 @@ import { PaginationBar } from "@/components/PaginationBar";
 import ReviewListItem from "@/components/ReviewListItem";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
-import LoadingTemplate from "./LoadingTemplate";
 import ReviewListLoading from "@/components/ReviewListLoading";
 
 type HomeProps = {
@@ -59,7 +58,7 @@ export default async function Home({
   const totalPages = Math.ceil(totalItemCount / pageSize);
 
   return (
-    <Suspense fallback={<LoadingTemplate />}>
+
       <main className="flex flex-col items-center justify-items-center mb-10 ">
         <div className="flex lg:flex-col items-center gap-3 w-full justify-center py-10 bg-white border-b">
           <h1 className="text-lg sm:text-3xl lg:text-5xl tracking-tighter font-bold">
@@ -139,6 +138,5 @@ export default async function Home({
           totalPages={totalPages}
         />
       </main>
-    </Suspense>
   );
 }

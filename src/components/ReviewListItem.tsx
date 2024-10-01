@@ -5,6 +5,7 @@ import React, { Suspense } from "react";
 import StarRating from "./StarRating";
 import ReviewDescriptionDropdown from "./ReviewDescriptionDropdown";
 import ReviewListLoading from "./ReviewListLoading";
+import { Search } from "lucide-react";
 
 type ReviewListItemProps = {
   query?: string;
@@ -75,8 +76,10 @@ export default async function ReviewListItem({
             </h1>
           )}
           {reviews.length === 0 && (
-            <div className="m-auto text-center text-lg font-semibold">
-              No reviews found...
+            <div className="m-auto text-center items-center flex flex-col gap-2 h-full pt-10 text-lg font-semibold">
+              <Search size={32} />
+              <p>We couldn&apos;t find any results</p>
+              <p className="text-sm tracking-tight">Try updating your filters or using different search terms</p>
             </div>
           )}
         </div>
