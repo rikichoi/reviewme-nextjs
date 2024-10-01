@@ -1,4 +1,3 @@
-import FilterSidebar from "@/components/FilterSidebar"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function LoadingTemplate() {
@@ -14,8 +13,8 @@ export default function LoadingTemplate() {
       <div className="w-full flex flex-col gap-5 lg:max-w-7xl lg:mx-auto lg:flex-row grow lg:px-5 pt-0 lg:pt-5">
         {/* FilterSidebar skeleton */}
         <div className="lg:w-1/4">
-        <FilterSidebar />
-          {/* <Skeleton className="h-10 w-full mb-4" />
+        {/* <FilterSidebar /> */}
+          <Skeleton className="h-10 w-full mb-4" />
           <Skeleton className="h-8 w-full mb-2" />
           <Skeleton className="h-8 w-full mb-2" />
           <Skeleton className="h-8 w-full mb-2" />
@@ -24,7 +23,7 @@ export default function LoadingTemplate() {
           <Skeleton className="h-8 w-full mb-2" />
           <Skeleton className="h-8 w-full mb-2" />
           <Skeleton className="h-8 w-full mb-4" />
-          <Skeleton className="h-10 w-full" /> */}
+          <Skeleton className="h-10 w-full" />
         </div>
         {/* ReviewListItem skeleton */}
         <div className="lg:w-3/4">
