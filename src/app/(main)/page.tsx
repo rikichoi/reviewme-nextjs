@@ -29,6 +29,7 @@ export default async function Home({
     page = "1",
   },
 }: HomeProps) {
+  
   const currentPage = parseInt(page);
 
   const totalItemCount = await prisma.reviews.count({
@@ -113,7 +114,7 @@ export default async function Home({
             order={order}
             page={currentPage}
           />
-          <Suspense fallback={<ReviewListLoading />}>
+          <Suspense key={page} fallback={<ReviewListLoading />}>
             <ReviewListItem
               page={page}
               category={category}
