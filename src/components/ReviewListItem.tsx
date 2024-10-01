@@ -1,9 +1,10 @@
 import prisma from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import StarRating from "./StarRating";
 import ReviewDescriptionDropdown from "./ReviewDescriptionDropdown";
+import ReviewListLoading from "./ReviewListLoading";
 
 type ReviewListItemProps = {
   query?: string;
@@ -56,36 +57,43 @@ export default async function ReviewListItem({
     take: pageSize,
   });
 
-
   // TODO: ADD AN OPTIONAL URL FOR EMAIL, WEBSITE, SOCIAL MEDIA AND PHONE
   return (
-    <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
-      <div className="flex justify-between">
-        {reviews.length > 0 && (
-          <h1 className="text-sm tracking-tight">
-           {(reviews.length < 6 ) ? totalItemCount - reviews.length : reviews.length * (currentPage - 1)} - {(reviews.length < 6 ) ? totalItemCount : reviews.length * currentPage}{" "}
-            of {totalItemCount} results
-          </h1>
-        )}
-        {reviews.length === 0 && (
-          <div className="m-auto text-center text-lg font-semibold">
-            No reviews found...
-          </div>
-        )}
+    <Suspense fallback={<ReviewListLoading />}>
+      <div className="grow gap-3 lg:px-0 px-5 flex flex-col">
+        <div className="flex justify-between">
+          {reviews.length > 0 && (
+            <h1 className="text-sm tracking-tight">
+              {reviews.length < 6
+                ? totalItemCount - reviews.length
+                : reviews.length * (currentPage - 1)}{" "}
+              -{" "}
+              {reviews.length < 6
+                ? totalItemCount
+                : reviews.length * currentPage}{" "}
+              of {totalItemCount} results
+            </h1>
+          )}
+          {reviews.length === 0 && (
+            <div className="m-auto text-center text-lg font-semibold">
+              No reviews found...
+            </div>
+          )}
+        </div>
+        {reviews.map((review) => (
+          <ReviewItem
+            key={review.id}
+            id={review.id}
+            description={review.description}
+            ratingAvg={review.ratingAvg}
+            reviewImageUrl={review.reviewImageUrl}
+            title={review.title}
+            location={review.location}
+            category={review.category}
+          />
+        ))}
       </div>
-      {reviews.map((review) => (
-        <ReviewItem
-          key={review.id}
-          id={review.id}
-          description={review.description}
-          ratingAvg={review.ratingAvg}
-          reviewImageUrl={review.reviewImageUrl}
-          title={review.title}
-          location={review.location}
-          category={review.category}
-        />
-      ))}
-    </div>
+    </Suspense>
   );
 }
 
@@ -125,10 +133,14 @@ function ReviewItem({
         </div>
         <div className="col-span-2 space-y-3">
           <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold tracking-tight truncate">{title}</h1>
+            <h1 className="text-lg font-semibold tracking-tight truncate">
+              {title}
+            </h1>
             <div className="flex items-center gap-2">
               <StarRating allowHover={false} value={ratingAvg} />
-              <p className="text-sm font-medium text-gray-500 truncate">{ratingAvg} | out of 5</p>
+              <p className="text-sm font-medium text-gray-500 truncate">
+                {ratingAvg} | out of 5
+              </p>
             </div>
           </div>
           <div>

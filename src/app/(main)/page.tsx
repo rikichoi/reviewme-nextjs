@@ -4,6 +4,7 @@ import ReviewListItem from "@/components/ReviewListItem";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 import LoadingTemplate from "./LoadingTemplate";
+import ReviewListLoading from "@/components/ReviewListLoading";
 
 type HomeProps = {
   searchParams: {
@@ -112,16 +113,18 @@ export default async function Home({
             order={order}
             page={currentPage}
           />
-          <ReviewListItem
-            page={page}
-            category={category}
-            location={location}
-            query={query}
-            verified={verified}
-            sort={sort}
-            order={order}
-            totalItemCount={totalItemCount}
-          />
+          <Suspense fallback={<ReviewListLoading />}>
+            <ReviewListItem
+              page={page}
+              category={category}
+              location={location}
+              query={query}
+              verified={verified}
+              sort={sort}
+              order={order}
+              totalItemCount={totalItemCount}
+            />
+          </Suspense>
         </div>
         {/* TODO: ADD PAGINATION VERY IMPORTANT!!! */}
         <PaginationBar
