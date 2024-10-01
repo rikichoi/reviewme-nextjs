@@ -24,7 +24,7 @@ async function filterReviews(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
 
-  const { category, location, query, verified, page } =
+  const { category, location, query, verified } =
     filterReviewsSchema.parse(values);
 
   const sort = values.sortBy.toString().split("&")[0];
@@ -37,7 +37,6 @@ async function filterReviews(formData: FormData) {
     ...(verified && { verified: "true" }),
     ...(order && { order }),
     ...(sort && { sort }),
-    ...(page && { page: page.toString() }),
   });
 
   redirect(`?${filterQuery}`);
