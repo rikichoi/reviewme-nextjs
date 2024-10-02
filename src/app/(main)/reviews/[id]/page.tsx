@@ -2,7 +2,6 @@ import StarRating from "@/components/StarRating";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import prisma from "@/lib/db";
 import { calculateRatingString } from "@/lib/utils";
-import { error } from "console";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -12,6 +11,7 @@ import PostCommentSection from "./PostCommentSection";
 import banner1 from "@/assets/banner1.jpeg";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Review from "./Review";
+import { Metadata } from "next";
 
 type ReviewPageProps = {
   params: {
@@ -19,7 +19,7 @@ type ReviewPageProps = {
   };
 };
 
-export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
+export async function getReview(id: string) {
   const review = await prisma.reviews.findFirst({
     where: {
       id: parseInt(id),
@@ -28,8 +28,29 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
       User: true,
     },
   });
+
   if (!review) {
-    throw error;
+    throw new Error("Review not found");
+  }
+
+  return review;
+}
+
+export async function generateMetadata({
+  params: { id },
+}: ReviewPageProps): Promise<Metadata> {
+  const review = await getReview(id);
+
+  return {
+    title: review.title + " | ReviewMe",
+  };
+}
+
+export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
+  const review = await getReview(id);
+
+  if (!review) {
+    throw new Error("Review not found");
   }
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">

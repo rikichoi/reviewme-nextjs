@@ -23,7 +23,6 @@ async function signup(formData: FormData): Promise<ActionResult> {
 
   const userId = generateIdFromEntropySize(10); // 16 characters long
 
-
   const usernameExists = await prisma.user.findFirst({
     where: {
       username: {
@@ -83,6 +82,12 @@ export default async function SignUpPage() {
       </div>
 
       <form action={signup} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1">
+          <label className="font-medium" htmlFor="email">
+            Email
+          </label>
+          <input name="email" id="email" className="border-2 p-2 rounded-lg" />
+        </div>
         <div className="flex flex-col gap-1">
           <label className="font-medium" htmlFor="username">
             Username

@@ -72,6 +72,11 @@ export default async function LogInPage({
         <p className="text-gray-500 tracking-tighter">
           Enter your credentials to access your account
         </p>
+        <p className="tracking-tighter">
+          <b>demo account details:</b> <br /> <b>username: </b> admin123 <br />{" "}
+          <b>password: </b>
+          admin123
+        </p>
       </div>
 
       <form action={login} className="flex flex-col gap-5">
