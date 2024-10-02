@@ -19,7 +19,7 @@ type ReviewPageProps = {
   };
 };
 
-export async function getReview(id: string) {
+async function getReview(id: string) {
   const review = await prisma.reviews.findFirst({
     where: {
       id: parseInt(id),
