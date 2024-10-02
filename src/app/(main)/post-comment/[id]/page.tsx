@@ -9,10 +9,10 @@ type PostCommentPageProps = {
   };
 };
 
-export default function PostCommentPage({
+export default async function PostCommentPage({
   params: { id },
 }: PostCommentPageProps) {
-  const session = getUser();
+  const session = await getUser();
 
   if (!session) {
     redirect("/login");

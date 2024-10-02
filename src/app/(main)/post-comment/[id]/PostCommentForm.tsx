@@ -160,6 +160,7 @@ export default function PostCommentForm({ id }: PostCommentFormProps) {
         </Popover>
         <p className="text-red-500">{errors.experienceDate?.message}</p>
       </div>
+      {/* TODO: ADD LOADING STATE TO SUBMIT BUTTON */}
       <button
         type="submit"
         className="border rounded-lg p-2 text-white bg-[#1c1c1c] w-full"

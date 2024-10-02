@@ -111,7 +111,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           <Comments id={id} />
         </div>
         <div>
-          <div className="border bg-white rounded-lg flex items-center mb-2">
+          <div className="border bg-white rounded-t-none rounded-b-lg md:rounded-lg flex items-center mb-2">
             <div className="flex items-center flex-col gap-2 py-5 flex-1">
               <div className="px-5 sm:px-0 sm:max-w-64">
                 <h2 className="text-sm font-semibold tracking-tight">
