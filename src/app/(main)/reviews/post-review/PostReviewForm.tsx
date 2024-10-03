@@ -19,6 +19,7 @@ export default function PostReviewForm() {
     getValues,
     watch,
     control,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<CreateReviewSchema>({
     resolver: zodResolver(createReviewSchema),
@@ -203,7 +204,9 @@ export default function PostReviewForm() {
           setValue={setValue}
           errors={errors.description?.message}
           register={register}
+          trigger={trigger}
         />
+        
         {errors.description && (
           <p role="alert" className="text-red-500">
             {errors.description.message}
