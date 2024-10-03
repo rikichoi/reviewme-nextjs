@@ -124,7 +124,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow px-10 md:px-5 pt-0 md:pt-5">
+      <div className="w-full flex flex-col-reverse gap-5 md:max-w-5xl md:mx-auto md:flex-row grow px-3 sm:px-10 md:px-5 pt-0 md:pt-5">
         <div className="flex-1 flex flex-col gap-4">
           <Review reviewDetails={review} />
           <PostCommentSection id={id} />

@@ -22,8 +22,8 @@ export default function Review({ reviewDetails }: ReviewProps) {
             height={300}
           />
           <div className="space-y-1">
-            <p>{reviewDetails.User?.displayName || "Anonymous User"}</p>
-            <p className="text-sm">
+            <p className="text-xs md:text-base">{reviewDetails.User?.displayName || "Anonymous User"}</p>
+            <p className="text-xs md:text-base">
               {formatConciseDate(reviewDetails.createdAt)}
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function Review({ reviewDetails }: ReviewProps) {
             </Badge>
           </div>
         </div>
-        <div
+        <div className="text-xs md:text-base"
           dangerouslySetInnerHTML={{ __html: reviewDetails.description }}
         ></div>
       </div>
