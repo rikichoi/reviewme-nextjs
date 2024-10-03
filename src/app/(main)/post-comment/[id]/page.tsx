@@ -15,7 +15,7 @@ export default async function PostCommentPage({
   const session = await getUser();
 
   if (!session) {
-    redirect("/login");
+    redirect(`/login?redirectUrl=post-comment/${id}`);
   }
 
   return <PostCommentForm id={id} />;
