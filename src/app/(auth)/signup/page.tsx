@@ -77,7 +77,7 @@ export default async function SignUpPage() {
           Create an account
         </h1>
         <p className="text-gray-500 tracking-tighter">
-          Enter your credentials to access your account
+          Create an account to post comments
         </p>
       </div>
 
