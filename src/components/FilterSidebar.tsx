@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { locationFilterOptions } from "@/lib/filter-types";
 import { filterReviewsSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 import prisma from "@/lib/db";
+import { Skeleton } from "./ui/skeleton";
 
 type FilterSidebarProps = {
   query?: string;
@@ -146,12 +147,30 @@ export default async function FilterSidebar({
             className="border-2 rounded-lg p-1 bg-white"
             defaultValue={category || ""}
           >
-            <option value="">All categories</option>
-            {categories.map((category) => (
-              <option key={category.category} value={category.category}>
-                {category.category} ({category.count})
-              </option>
-            ))}
+            <Suspense
+              fallback={
+                <div className="lg:w-1/4">
+                  {/* <FilterSidebar /> */}
+                  <Skeleton className="h-10 w-full mb-4" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-4" />
+                  <Skeleton className="h-10 w-full mb-4" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-4" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              }
+            >
+              <option value="">All categories</option>
+              {categories.map((category) => (
+                <option key={category.category} value={category.category}>
+                  {category.category} ({category.count})
+                </option>
+              ))}
+            </Suspense>
           </select>
         </div>
         <div className="flex gap-2">
