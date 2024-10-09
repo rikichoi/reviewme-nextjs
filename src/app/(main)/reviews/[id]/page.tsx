@@ -44,7 +44,6 @@ async function getReview(id: string) {
   return review;
 }
 
-
 async function getCommentRatingCount(id: string): Promise<CommentCount> {
   const commentCount = await prisma.comments.findMany({
     where: {
@@ -52,26 +51,41 @@ async function getCommentRatingCount(id: string): Promise<CommentCount> {
     },
   });
   return {
-    star5Count: commentCount.reduce(
-      (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
-      0
-    ),
-    star4Count: commentCount.reduce(
-      (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
-      0
-    ),
-    star3Count: commentCount.reduce(
-      (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
-      0
-    ),
-    star2Count: commentCount.reduce(
-      (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
-      0
-    ),
-    star1Count: commentCount.reduce(
-      (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
-      0
-    ),
+    star5Percentage:
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+      100,
+      star4Percentage:
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+      100,
+      star3Percentage:
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+      100,
+      star2Percentage:
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+      100,
+      star1Percentage:
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+      100,
   };
 }
 

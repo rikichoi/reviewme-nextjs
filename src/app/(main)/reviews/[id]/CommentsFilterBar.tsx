@@ -10,7 +10,7 @@ type CommentsFilterBarProps = {
   star3?: boolean;
   star2?: boolean;
   star1?: boolean;
-  commentCount: CommentCount
+  commentCount: CommentCount;
 };
 
 export default function CommentsFilterBar({
@@ -19,7 +19,7 @@ export default function CommentsFilterBar({
   star3,
   star4,
   star5,
-  commentCount
+  commentCount,
 }: CommentsFilterBarProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -49,6 +49,8 @@ export default function CommentsFilterBar({
     }
   }
 
+  console.log(commentCount);
+
   return (
     // TODO: Implement filter functioanlity
     // add all the comments up and divide by amount
@@ -67,8 +69,10 @@ export default function CommentsFilterBar({
           />
           <label htmlFor="5">5-star</label>
         </div>
-        <CommentRatingProgress />
-        <p className="max-w-12 w-full text-end">33%</p>
+        <CommentRatingProgress progress={commentCount.star5Percentage}/>
+        <p className="max-w-12 w-full text-end">
+          {commentCount.star5Percentage}%
+        </p>
       </div>
       <div className="flex items-center gap-2 text-sm">
         <div className="flex items-center gap-2 text-sm max-w-16 w-full">
@@ -83,8 +87,10 @@ export default function CommentsFilterBar({
           />
           <label htmlFor="4">4-star</label>
         </div>
-        <CommentRatingProgress />
-        <p className="max-w-12 w-full text-end">33%</p>
+        <CommentRatingProgress progress={commentCount.star4Percentage}/>
+        <p className="max-w-12 w-full text-end">
+          {commentCount.star4Percentage}%
+        </p>
       </div>
       <div className="flex items-center gap-2 text-sm">
         <div className="flex items-center gap-2 text-sm max-w-16 w-full">
@@ -99,8 +105,10 @@ export default function CommentsFilterBar({
           />
           <label htmlFor="3">3-star</label>
         </div>
-        <CommentRatingProgress />
-        <p className="max-w-12 w-full text-end">33%</p>
+        <CommentRatingProgress progress={commentCount.star3Percentage}/>
+        <p className="max-w-12 w-full text-end">
+          {commentCount.star3Percentage}%
+        </p>
       </div>
       <div className="flex items-center gap-2 text-sm">
         <div className="flex items-center gap-2 text-sm max-w-16 w-full">
@@ -115,8 +123,10 @@ export default function CommentsFilterBar({
           />
           <label htmlFor="2">2-star</label>
         </div>
-        <CommentRatingProgress />
-        <p className="max-w-12 w-full text-end">33%</p>
+        <CommentRatingProgress progress={commentCount.star2Percentage}/>
+        <p className="max-w-12 w-full text-end">
+          {commentCount.star2Percentage}%
+        </p>
       </div>
       <div className="flex items-center gap-2 text-sm">
         <div className="flex items-center gap-2 text-sm max-w-16 w-full">
@@ -131,8 +141,10 @@ export default function CommentsFilterBar({
           />
           <label htmlFor="1">1-star</label>
         </div>
-        <CommentRatingProgress />
-        <p className="max-w-12 w-full text-end">33%</p>
+        <CommentRatingProgress progress={commentCount.star1Percentage}/>
+        <p className="max-w-12 w-full text-end">
+          {commentCount.star1Percentage}%
+        </p>
       </div>
     </form>
   );
