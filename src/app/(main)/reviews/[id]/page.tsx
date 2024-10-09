@@ -50,46 +50,51 @@ async function getCommentRatingCount(id: string): Promise<CommentCount> {
     },
   });
   return {
-    star5Percentage: Math.round(
-      (commentCount.reduce(
-        (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
-        0
-      ) /
-        commentCount.length) *
-        100
-    ),
-    star4Percentage: Math.round(
-      (commentCount.reduce(
-        (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
-        0
-      ) /
-        commentCount.length) *
-        100
-    ),
-    star3Percentage: Math.round(
-      (commentCount.reduce(
-        (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
-        0
-      ) /
-        commentCount.length) *
-        100
-    ),
-    star2Percentage: Math.round(
-      (commentCount.reduce(
-        (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
-        0
-      ) /
-        commentCount.length) *
-        100
-    ),
-    star1Percentage: Math.round(
-      (commentCount.reduce(
-        (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
-        0
-      ) /
-        commentCount.length) *
-        100
-    ),
+    star5Percentage:
+      Math.round(
+        (commentCount.reduce(
+          (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
+          0
+        ) /
+          commentCount.length) *
+          100
+      ) || 0,
+    star4Percentage:
+      Math.round(
+        (commentCount.reduce(
+          (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
+          0
+        ) /
+          commentCount.length) *
+          100
+      ) || 0,
+    star3Percentage:
+      Math.round(
+        (commentCount.reduce(
+          (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
+          0
+        ) /
+          commentCount.length) *
+          100
+      ) || 0,
+    star2Percentage:
+      Math.round(
+        (commentCount.reduce(
+          (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
+          0
+        ) /
+          commentCount.length) *
+          100
+      ) || 0,
+    star1Percentage:
+      Math.round(
+        (commentCount.reduce(
+          (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
+          0
+        ) /
+          commentCount.length) *
+          100
+      ) || 0,
   };
 }
 
