@@ -118,9 +118,9 @@ export default async function ReviewPage({
 
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">
-      <div className="bg-white border-b min-h-40 w-full p-2 sticky top-0 md:static">
+      <div className="bg-white z-50 border-b min-h-40 w-full p-2 sticky top-0 md:static">
         <div className="grid grid-cols-3 gap-5 p-5 max-w-5xl mx-auto">
-          <Link href={`/reviews/${id}`} className="items-center w-fit flex">
+          <div className="items-center w-fit flex">
             <Image
               className="object-contain rounded max-h-24"
               height={500}
@@ -128,7 +128,7 @@ export default async function ReviewPage({
               src={review.reviewImageUrl}
               alt="Review Image"
             />
-          </Link>
+          </div>
           <div className="col-span-2 space-y-3">
             <div className="flex flex-col">
               <h1 className="text-3xl md:text-4xl tracking-tight font-bold">
@@ -266,13 +266,13 @@ export default async function ReviewPage({
                 </h2>
                 {/* TODO: Add contact information */}
                 <span className="flex items-center gap-3 text-sm">
-                  <Phone size={16} /> *User phone number*
+                  <Phone size={16} /> 123 456 789
                 </span>
                 <span className="flex items-center gap-3 text-sm">
-                  <MapPin size={16} /> *User address*
+                  <MapPin size={16} /> John St, Hawthorn VIC 3122
                 </span>
                 <span className="flex items-center gap-3 text-sm">
-                  <Mail size={16} /> *User email*
+                  <Mail size={16} /> reviewme@gmail.com
                 </span>
               </div>
             </div>
