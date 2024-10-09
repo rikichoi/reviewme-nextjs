@@ -14,6 +14,13 @@ import Review from "./Review";
 import { Metadata } from "next";
 
 type ReviewPageProps = {
+  searchParams: {
+    star5?: boolean;
+    star4?: boolean;
+    star3?: boolean;
+    star2?: boolean;
+    star1?: boolean;
+  };
   params: {
     id: string;
   };
@@ -46,7 +53,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
+export default async function ReviewPage({
+  params: { id },
+  searchParams: { star1, star2, star3, star4, star5 },
+}: ReviewPageProps) {
   const review = await getReview(id);
 
   if (!review) {
@@ -128,8 +138,21 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
         <div className="flex-1 flex flex-col gap-4">
           <Review reviewDetails={review} />
           <PostCommentSection id={id} />
-          <CommentsFilterBar />
-          <Comments id={id} />
+          <CommentsFilterBar
+            star5={star5}
+            star4={star4}
+            star3={star3}
+            star2={star2}
+            star1={star1}
+          />
+          <Comments
+            id={id}
+            star5={star5}
+            star4={star4}
+            star3={star3}
+            star2={star2}
+            star1={star1}
+          />
         </div>
         <div>
           <div className="border bg-white rounded-t-none rounded-b-lg md:rounded-lg flex items-center mb-2">

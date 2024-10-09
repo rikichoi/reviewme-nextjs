@@ -29,7 +29,7 @@ export default function PostCommentForm({ id }: PostCommentFormProps) {
     formState: { errors },
   } = useForm<CreateCommentSchema>({
     resolver: zodResolver(createCommentSchema),
-    defaultValues: { commentRating: "2.5" },
+    defaultValues: { commentRating: "3" },
   });
 
   const { field } = useController<CreateCommentSchema>({
@@ -92,7 +92,7 @@ export default function PostCommentForm({ id }: PostCommentFormProps) {
           name="commentRating"
           min="0"
           max="5"
-          step="0.5"
+          step="1"
           className="bg-blue-200 w-full h-4 cursor-pointer "
         />
         <p className="font-semibold text-green-500 text-lg text-center">

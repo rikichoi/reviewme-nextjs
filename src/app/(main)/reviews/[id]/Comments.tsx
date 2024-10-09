@@ -7,14 +7,54 @@ import { formatDate } from "@/lib/utils";
 
 type CommentsProps = {
   id: string;
+  star5?: boolean;
+  star4?: boolean;
+  star3?: boolean;
+  star2?: boolean;
+  star1?: boolean;
 };
 
-export default async function Comments({ id }: CommentsProps) {
+export default async function Comments({
+  id,
+  star1,
+  star2,
+  star3,
+  star4,
+  star5,
+}: CommentsProps) {
   const comments = await prisma.comments.findMany({
     where: {
       reviewId: parseInt(id),
+      AND: [
+        {
+          commentRating: {
+            equals: star5 ? 5 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star4 ? 4 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star3 ? 3 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star2 ? 2 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star1 ? 1 : undefined,
+          },
+        },
+      ],
     },
   });
+
   return (
     <div className="space-y-3">
       {comments ? (
