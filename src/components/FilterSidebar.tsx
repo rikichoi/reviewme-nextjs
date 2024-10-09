@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { locationFilterOptions } from "@/lib/filter-types";
 import { filterReviewsSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 import prisma from "@/lib/db";
+import { Skeleton } from "./ui/skeleton";
 
 type FilterSidebarProps = {
   query?: string;
@@ -20,25 +21,11 @@ type ReviewCategory = {
   count: number;
 };
 
-async function getRelevantCategories(): Promise<ReviewCategory[]> {
-  const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>`
-      SELECT category, COUNT(*) as count 
-      FROM reviews 
-      WHERE verified = true
-      GROUP BY category 
-      ORDER BY count DESC
-    `;
-  return reviewCategories.map((row) => ({
-    category: row.category,
-    count: Number(row.count),
-  }));
-}
-
 async function filterReviews(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
 
-  const { category, location, query, verified, page } =
+  const { category, location, query, verified } =
     filterReviewsSchema.parse(values);
 
   const sort = values.sortBy.toString().split("&")[0];
@@ -51,7 +38,6 @@ async function filterReviews(formData: FormData) {
     ...(verified && { verified: "true" }),
     ...(order && { order }),
     ...(sort && { sort }),
-    ...(page && { page: page.toString() }),
   });
 
   redirect(`?${filterQuery}`);
@@ -66,12 +52,45 @@ export default async function FilterSidebar({
   order,
   page,
 }: FilterSidebarProps) {
+  async function getRelevantCategories() {
+    const reviewCategories = await prisma.$queryRaw<
+      ReviewCategory[]
+    >`SELECT category, COUNT(*) as count 
+        FROM reviews 
+        WHERE verified = true AND location LIKE ${location ? location : "%"}
+        GROUP BY category 
+        ORDER BY count DESC`;
+    return reviewCategories.map((row) => ({
+      category: row.category,
+      count: Number(row.count),
+    }));
+  }
+  // TODO: dive deeper into unstable cache. learn more about its use cases
+  // const getRelevantCategories = unstable_cache(
+  //   async () => {
+  //     const reviewCategories = await prisma.$queryRaw<ReviewCategory[]>
+  //     `SELECT category, COUNT(*) as count
+  //       FROM reviews
+  //       WHERE verified = true
+  //       GROUP BY category
+  //       ORDER BY count DESC`;
+  //     return reviewCategories.map((row) => ({
+  //       category: row.category,
+  //       count: Number(row.count),
+  //     }));
+  //   },
+  //   ["relevant_categories"],
+  //   {
+  //     revalidate: 3 * 60 * 60,
+  //   }
+  // );
+
   const defaultSort = `${sort}&${order}`;
   const categories = await getRelevantCategories();
   return (
-    <div className="sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
+    <div className="text-xs sm:text-base sticky z-30 top-0 lg:top-4 w-full border-b-2 lg:border-2 p-4 lg:rounded-lg bg-white lg:p-6 lg:w-fit h-fit">
       <form action={filterReviews} className="flex flex-col gap-3">
-      <input hidden name="page" value={page} />
+        <input hidden name="page" value={page} />
         <div className="flex flex-col gap-1">
           <label htmlFor="query" className="font-bold tracking-tight">
             Search
@@ -128,12 +147,30 @@ export default async function FilterSidebar({
             className="border-2 rounded-lg p-1 bg-white"
             defaultValue={category || ""}
           >
-            <option value="">All categories</option>
-            {categories.map((category) => (
-              <option key={category.category} value={category.category}>
-                {category.category} ({category.count})
-              </option>
-            ))}
+            <Suspense
+              fallback={
+                <div className="lg:w-1/4">
+                  {/* <FilterSidebar /> */}
+                  <Skeleton className="h-10 w-full mb-4" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-4" />
+                  <Skeleton className="h-10 w-full mb-4" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-2" />
+                  <Skeleton className="h-8 w-full mb-4" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              }
+            >
+              <option value="">All categories</option>
+              {categories.map((category) => (
+                <option key={category.category} value={category.category}>
+                  {category.category} ({category.count})
+                </option>
+              ))}
+            </Suspense>
           </select>
         </div>
         <div className="flex gap-2">

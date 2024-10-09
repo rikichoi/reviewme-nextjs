@@ -3,20 +3,31 @@ import { CreateReviewSchema } from "@/lib/validation";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+} from "react-hook-form";
 import "./tiptapStyles.css";
 import { Toolbar } from "./Toolbar";
 
-// TODO: FIX THE HYDRATION WARNING ERROR 
+// TODO: FIX THE HYDRATION WARNING ERROR
 
 type TiptapProps = {
   register: UseFormRegister<CreateReviewSchema>;
   setValue: UseFormSetValue<CreateReviewSchema>;
+  trigger: UseFormTrigger<CreateReviewSchema>;
   errors?: string;
   description: string;
 };
 
-const Tiptap = ({ register, setValue, description, errors }: TiptapProps) => {
+const Tiptap = ({
+  register,
+  setValue,
+  trigger,
+  description,
+  errors,
+}: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
@@ -32,6 +43,7 @@ const Tiptap = ({ register, setValue, description, errors }: TiptapProps) => {
     },
     onUpdate({ editor }) {
       setValue("description", editor.getHTML());
+      trigger("description");
     },
   });
 

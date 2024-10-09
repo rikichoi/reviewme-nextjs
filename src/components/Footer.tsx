@@ -5,7 +5,7 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="border-t">
-      <div className="container flex flex-col items-center justify-between gap-4 py-10">
+      <div className="container flex flex-col items-center justify-between mx-auto gap-4 py-10">
         <div className="flex flex-col items-center gap-4 px-8">
           <p className="text-center text-sm leading-loose text-muted-foreground">
             Built by{" "}

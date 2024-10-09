@@ -7,14 +7,55 @@ import { formatDate } from "@/lib/utils";
 
 type CommentsProps = {
   id: string;
+  star5?: boolean;
+  star4?: boolean;
+  star3?: boolean;
+  star2?: boolean;
+  star1?: boolean;
 };
 
-export default async function Comments({ id }: CommentsProps) {
+export default async function Comments({
+  id,
+  star1,
+  star2,
+  star3,
+  star4,
+  star5,
+}: CommentsProps) {
   const comments = await prisma.comments.findMany({
     where: {
       reviewId: parseInt(id),
+      AND: [
+        {
+          commentRating: {
+            equals: star5 ? 5 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star4 ? 4 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star3 ? 3 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star2 ? 2 : undefined,
+          },
+        },
+        {
+          commentRating: {
+            equals: star1 ? 1 : undefined,
+          },
+        },
+      ],
     },
+    include: { User: true },
   });
+
   return (
     <div className="space-y-3">
       {comments ? (
@@ -27,15 +68,14 @@ export default async function Comments({ id }: CommentsProps) {
               <div>
                 <Image
                   alt="User Icon"
-                  src={placeholderIcon}
+                  src={comment.User.avatarUrl || placeholderIcon}
                   className="h-12 w-12 rounded-full bg-slate-200 p-2"
                   width={300}
                   height={300}
                 />
               </div>
-              <div>
-                <p>*username*</p>
-                <p>*additional info - location, premium account, etc...*</p>
+              <div className="flex items-center">
+                <p>{comment.User.displayName}</p>
               </div>
             </div>
             <hr className="my-4"></hr>
@@ -50,7 +90,7 @@ export default async function Comments({ id }: CommentsProps) {
               </p>
             </div>
             <h2 className="font-bold text-lg mb-1">{comment.title}</h2>
-            <p className="mb-4">{comment.comment}</p>
+            <div className="whitespace-pre-line break-words mb-4">{comment.comment}</div>
             {comment.experienceDate && (
               <h3 className="font-semibold text-sm tracking-tight">
                 Date of experience:

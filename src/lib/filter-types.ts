@@ -25,5 +25,6 @@ export const categoryFilterOptions = [
     'Zoo',
     'Theater',
     'Cinema',
-    'Shopping Mall'
+    'Shopping Mall',
+    'Other'
 ];

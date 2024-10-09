@@ -1,7 +1,4 @@
-import {
-  Pagination,
-  PaginationContent,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent } from "@/components/ui/pagination";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -61,6 +58,11 @@ export function PaginationBar({
       </Link>
     );
   }
+
+  if (numberedPageItems.length === 0) {
+    return;
+  }
+
   return (
     <Pagination>
       <PaginationContent className="hidden sm:flex">
