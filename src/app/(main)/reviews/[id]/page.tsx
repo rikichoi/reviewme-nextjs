@@ -3,7 +3,6 @@ import { VerifiedBadge } from "@/components/VerifiedBadge";
 import prisma from "@/lib/db";
 import { calculateRatingString } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import Comments from "./Comments";
 import CommentsFilterBar from "./CommentsFilterBar";
