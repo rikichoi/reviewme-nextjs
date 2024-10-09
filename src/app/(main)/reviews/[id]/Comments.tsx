@@ -27,29 +27,33 @@ export default async function Comments({
       reviewId: parseInt(id),
       AND: [
         {
-          commentRating: {
-            equals: star5 ? 5 : undefined,
-          },
-        },
-        {
-          commentRating: {
-            equals: star4 ? 4 : undefined,
-          },
-        },
-        {
-          commentRating: {
-            equals: star3 ? 3 : undefined,
-          },
-        },
-        {
-          commentRating: {
-            equals: star2 ? 2 : undefined,
-          },
-        },
-        {
-          commentRating: {
-            equals: star1 ? 1 : undefined,
-          },
+          OR: [
+            {
+              commentRating: {
+                equals: star5 ? 5 : undefined,
+              },
+            },
+            {
+              commentRating: {
+                equals: star4 ? 4 : undefined,
+              },
+            },
+            {
+              commentRating: {
+                equals: star3 ? 3 : undefined,
+              },
+            },
+            {
+              commentRating: {
+                equals: star2 ? 2 : undefined,
+              },
+            },
+            {
+              commentRating: {
+                equals: star1 ? 1 : undefined,
+              },
+            },
+          ],
         },
       ],
     },
@@ -90,7 +94,9 @@ export default async function Comments({
               </p>
             </div>
             <h2 className="font-bold text-lg mb-1">{comment.title}</h2>
-            <div className="whitespace-pre-line break-words mb-4">{comment.comment}</div>
+            <div className="whitespace-pre-line break-words mb-4">
+              {comment.comment}
+            </div>
             {comment.experienceDate && (
               <h3 className="font-semibold text-sm tracking-tight">
                 Date of experience:
