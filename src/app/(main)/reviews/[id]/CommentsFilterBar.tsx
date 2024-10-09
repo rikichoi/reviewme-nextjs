@@ -2,6 +2,7 @@
 import React, { useCallback } from "react";
 import { CommentRatingProgress } from "./CommentRatingProgress";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { CommentCount } from "@/lib/types";
 
 type CommentsFilterBarProps = {
   star5?: boolean;
@@ -9,6 +10,7 @@ type CommentsFilterBarProps = {
   star3?: boolean;
   star2?: boolean;
   star1?: boolean;
+  commentCount: CommentCount
 };
 
 export default function CommentsFilterBar({
@@ -17,6 +19,7 @@ export default function CommentsFilterBar({
   star3,
   star4,
   star5,
+  commentCount
 }: CommentsFilterBarProps) {
   const searchParams = useSearchParams();
   const router = useRouter();

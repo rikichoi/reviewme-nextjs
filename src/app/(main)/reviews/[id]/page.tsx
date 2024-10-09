@@ -12,6 +12,7 @@ import banner1 from "@/assets/banner1.jpeg";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Review from "./Review";
 import { Metadata } from "next";
+import { CommentCount } from "@/lib/types";
 
 type ReviewPageProps = {
   searchParams: {
@@ -43,6 +44,37 @@ async function getReview(id: string) {
   return review;
 }
 
+
+async function getCommentRatingCount(id: string): Promise<CommentCount> {
+  const commentCount = await prisma.comments.findMany({
+    where: {
+      reviewId: parseInt(id),
+    },
+  });
+  return {
+    star5Count: commentCount.reduce(
+      (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
+      0
+    ),
+    star4Count: commentCount.reduce(
+      (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
+      0
+    ),
+    star3Count: commentCount.reduce(
+      (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
+      0
+    ),
+    star2Count: commentCount.reduce(
+      (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
+      0
+    ),
+    star1Count: commentCount.reduce(
+      (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
+      0
+    ),
+  };
+}
+
 export async function generateMetadata({
   params: { id },
 }: ReviewPageProps): Promise<Metadata> {
@@ -62,6 +94,9 @@ export default async function ReviewPage({
   if (!review) {
     throw new Error("Review not found");
   }
+
+  const commentCount = await getCommentRatingCount(id);
+
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">
       <div className="bg-white border-b min-h-40 w-full p-2 sticky top-0 md:static">
@@ -144,6 +179,7 @@ export default async function ReviewPage({
             star3={star3}
             star2={star2}
             star1={star1}
+            commentCount={commentCount}
           />
           <Comments
             id={id}

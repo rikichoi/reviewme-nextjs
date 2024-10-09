@@ -53,6 +53,7 @@ export default async function Comments({
         },
       ],
     },
+    include: { User: true },
   });
 
   return (
@@ -67,15 +68,14 @@ export default async function Comments({
               <div>
                 <Image
                   alt="User Icon"
-                  src={placeholderIcon}
+                  src={comment.User.avatarUrl || placeholderIcon}
                   className="h-12 w-12 rounded-full bg-slate-200 p-2"
                   width={300}
                   height={300}
                 />
               </div>
-              <div>
-                <p>*username*</p>
-                <p>*additional info - location, premium account, etc...*</p>
+              <div className="flex items-center">
+                <p>{comment.User.displayName}</p>
               </div>
             </div>
             <hr className="my-4"></hr>
