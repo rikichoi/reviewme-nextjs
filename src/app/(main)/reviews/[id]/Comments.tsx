@@ -90,7 +90,7 @@ export default async function Comments({
               </p>
             </div>
             <h2 className="font-bold text-lg mb-1">{comment.title}</h2>
-            <p className="mb-4">{comment.comment}</p>
+            <div className="whitespace-pre-line break-words mb-4">{comment.comment}</div>
             {comment.experienceDate && (
               <h3 className="font-semibold text-sm tracking-tight">
                 Date of experience:
