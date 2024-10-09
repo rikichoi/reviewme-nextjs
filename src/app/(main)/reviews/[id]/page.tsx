@@ -3,7 +3,6 @@ import { VerifiedBadge } from "@/components/VerifiedBadge";
 import prisma from "@/lib/db";
 import { calculateRatingString } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import Comments from "./Comments";
 import CommentsFilterBar from "./CommentsFilterBar";
@@ -12,8 +11,16 @@ import banner1 from "@/assets/banner1.jpeg";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Review from "./Review";
 import { Metadata } from "next";
+import { CommentCount } from "@/lib/types";
 
 type ReviewPageProps = {
+  searchParams: {
+    star5?: boolean;
+    star4?: boolean;
+    star3?: boolean;
+    star2?: boolean;
+    star1?: boolean;
+  };
   params: {
     id: string;
   };
@@ -36,6 +43,56 @@ async function getReview(id: string) {
   return review;
 }
 
+async function getCommentRatingCount(id: string): Promise<CommentCount> {
+  const commentCount = await prisma.comments.findMany({
+    where: {
+      reviewId: parseInt(id),
+    },
+  });
+  return {
+    star5Percentage: Math.round(
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 5 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+        100
+    ),
+    star4Percentage: Math.round(
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 4 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+        100
+    ),
+    star3Percentage: Math.round(
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 3 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+        100
+    ),
+    star2Percentage: Math.round(
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 2 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+        100
+    ),
+    star1Percentage: Math.round(
+      (commentCount.reduce(
+        (total, comment) => (comment.commentRating == 1 ? total + 1 : total),
+        0
+      ) /
+        commentCount.length) *
+        100
+    ),
+  };
+}
+
 export async function generateMetadata({
   params: { id },
 }: ReviewPageProps): Promise<Metadata> {
@@ -46,17 +103,23 @@ export async function generateMetadata({
   };
 }
 
-export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
+export default async function ReviewPage({
+  params: { id },
+  searchParams: { star1, star2, star3, star4, star5 },
+}: ReviewPageProps) {
   const review = await getReview(id);
 
   if (!review) {
     throw new Error("Review not found");
   }
+
+  const commentCount = await getCommentRatingCount(id);
+
   return (
     <main className="flex flex-col items-center justify-items-center mb-10">
-      <div className="bg-white border-b min-h-40 w-full p-2 sticky top-0 md:static">
+      <div className="bg-white z-50 border-b min-h-40 w-full p-2 sticky top-0 md:static">
         <div className="grid grid-cols-3 gap-5 p-5 max-w-5xl mx-auto">
-          <Link href={`/reviews/${id}`} className="items-center w-fit flex">
+          <div className="items-center w-fit flex">
             <Image
               className="object-contain rounded max-h-24"
               height={500}
@@ -64,7 +127,7 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
               src={review.reviewImageUrl}
               alt="Review Image"
             />
-          </Link>
+          </div>
           <div className="col-span-2 space-y-3">
             <div className="flex flex-col">
               <h1 className="text-3xl md:text-4xl tracking-tight font-bold">
@@ -128,8 +191,22 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
         <div className="flex-1 flex flex-col gap-4">
           <Review reviewDetails={review} />
           <PostCommentSection id={id} />
-          <CommentsFilterBar />
-          <Comments id={id} />
+          <CommentsFilterBar
+            star5={star5}
+            star4={star4}
+            star3={star3}
+            star2={star2}
+            star1={star1}
+            commentCount={commentCount}
+          />
+          <Comments
+            id={id}
+            star5={star5}
+            star4={star4}
+            star3={star3}
+            star2={star2}
+            star1={star1}
+          />
         </div>
         <div>
           <div className="border bg-white rounded-t-none rounded-b-lg md:rounded-lg flex items-center mb-2">
@@ -188,13 +265,13 @@ export default async function ReviewPage({ params: { id } }: ReviewPageProps) {
                 </h2>
                 {/* TODO: Add contact information */}
                 <span className="flex items-center gap-3 text-sm">
-                  <Phone size={16} /> *User phone number*
+                  <Phone size={16} /> 123 456 789
                 </span>
                 <span className="flex items-center gap-3 text-sm">
-                  <MapPin size={16} /> *User address*
+                  <MapPin size={16} /> John St, Hawthorn VIC 3122
                 </span>
                 <span className="flex items-center gap-3 text-sm">
-                  <Mail size={16} /> *User email*
+                  <Mail size={16} /> reviewme@gmail.com
                 </span>
               </div>
             </div>
