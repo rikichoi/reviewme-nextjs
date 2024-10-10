@@ -49,8 +49,6 @@ export default function CommentsFilterBar({
     }
   }
 
-  console.log(commentCount);
-
   return (
     // TODO: Implement filter functioanlity
     // add all the comments up and divide by amount

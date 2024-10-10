@@ -14,7 +14,6 @@ export default function ReviewDescriptionDropdown({
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (isOpen) {
-      console.log("Dropdown is open");
     } else {
       return;
     }

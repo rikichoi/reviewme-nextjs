@@ -66,7 +66,6 @@ export default function PostReviewForm() {
           value={undefined} // Remove the value property
           onChange={(e) => {
             const file = e.target.files?.[0];
-            console.log(file);
             field.onChange(file);
           }}
           type="file"
